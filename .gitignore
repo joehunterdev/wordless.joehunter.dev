@@ -1,0 +1,17 @@
+# Cache & logs
+/storage/cache/*
+/storage/logs/*
+!storage/cache/.gitkeep
+!storage/logs/.gitkeep
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# PHP
+*.log
