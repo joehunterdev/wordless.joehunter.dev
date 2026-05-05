@@ -25,12 +25,36 @@ class Renderer
             throw new \RuntimeException("Template not found: {$template}");
         }
 
+        // Always inject $renderer so partials are callable from any template
+        $data += ['renderer' => $this];
+
         // Extract data into local scope, then buffer output
         extract($data, EXTR_SKIP);
 
+        // $layout / $pageTitle may be set by the template itself
+        $layout    = null;
+        $pageTitle = '';
+
         ob_start();
         require $file;
-        return ob_get_clean();
+        $slot = ob_get_clean();
+
+        if ($layout !== null) {
+            return $this->render('layouts/' . $layout, [
+                'slot'      => $slot,
+                'pageTitle' => $pageTitle,
+            ]);
+        }
+
+        return $slot;
+    }
+
+    /**
+     * Render a partial from /templates/partials/{name}.php
+     */
+    public function partial(string $name, array $data = []): string
+    {
+        return $this->render('partials/' . $name, $data);
     }
 
     /**

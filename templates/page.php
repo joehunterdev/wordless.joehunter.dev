@@ -1,21 +1,16 @@
 <?php
 /** @var \Wordless\Content\Content $content */
-/** @var \Wordless\Templating\Renderer $renderer */
-
-ob_start();
+$layout    = 'base';
+$pageTitle = $content->title;
 ?>
 <article>
     <h1><?= htmlspecialchars($content->title) ?></h1>
     <?php if ($content->get('date')): ?>
-        <p class="meta" style="color:#888;font-size:0.9rem;">
+        <time class="meta" style="color:#888;font-size:0.9rem;" datetime="<?= htmlspecialchars($content->get('date')) ?>">
             <?= htmlspecialchars($content->get('date')) ?>
-        </p>
+        </time>
     <?php endif; ?>
     <div class="body">
         <?= $content->body ?>
     </div>
 </article>
-<?php
-$slot      = ob_get_clean();
-$pageTitle = $content->title;
-require __DIR__ . '/layouts/base.php';
