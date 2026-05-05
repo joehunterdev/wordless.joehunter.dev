@@ -14,6 +14,7 @@ use Wordless\Events\EventDispatcher;
 use Wordless\Http\Middleware\CacheMiddleware;
 use Wordless\Http\Middleware\ErrorMiddleware;
 use Wordless\Plugins\PluginManager;
+use Wordless\Http\Controllers\SitemapController;
 use Wordless\Routing\Router;
 use Wordless\Templating\Renderer;
 
@@ -64,6 +65,11 @@ $container->bind('middleware.stack', fn() => [
 /** @var PluginManager $plugins */
 $plugins = $container->get(PluginManager::class);
 $plugins->boot();
+
+// Named routes
+/** @var Router $router */
+$router = $container->get(Router::class);
+$router->add('/sitemap.xml', SitemapController::class);
 
 $app = new Application($container);
 Application::setInstance($app);
