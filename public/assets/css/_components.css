@@ -2,12 +2,30 @@
    Components — named UI pieces
    ========================================================================== */
 
-/* --- Navigation (W3Schools Style) --------------------------------------- */
+/* --- Header -------------------------------------------------------------- */
 
-.site-nav {
+header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
     padding-bottom: var(--space-4);
     margin-bottom: var(--space-6);
     border-bottom: 1px solid var(--color-border);
+}
+
+.site-logo img {
+    display: block;
+    height: 48px;
+    width: auto;
+}
+
+/* --- Navigation ---------------------------------------------------------- */
+
+.site-nav {
+    flex: 1;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: none;
     position: relative;
 }
 
@@ -27,7 +45,7 @@
 
 .navbar > li > a {
     display: block;
-    color: var(--color-link);
+    color: var(--color-text);
     text-align: center;
     padding: var(--space-2) var(--space-4);
     text-decoration: none;
@@ -35,13 +53,14 @@
 }
 
 .navbar > li > a:hover {
-    background-color: var(--color-bg-subtle);
-    text-decoration: underline;
+    color: var(--color-brand);
+    background-color: transparent;
+    text-decoration: none;
 }
 
 .navbar > li.active > a,
 .navbar > li.ancestor > a {
-    color: var(--color-text);
+    color: var(--color-brand);
     text-decoration: underline;
     text-underline-offset: 3px;
 }
@@ -136,8 +155,16 @@
 
 /* --- Article ------------------------------------------------------------- */
 
-.article-body h1:first-child {
+article h1:first-child {
     margin-top: 0;
+}
+
+article h1 {
+    font-weight: 900;
+}
+
+article h2, article h3 {
+    font-weight: 600;
 }
 
 /* --- Copy button --------------------------------------------------------- */

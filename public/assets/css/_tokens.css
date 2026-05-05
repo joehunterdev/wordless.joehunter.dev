@@ -4,18 +4,32 @@
    ========================================================================== */
 
 :root {
-    /* Colour palette */
-    --color-text:         #222222;
-    --color-text-muted:   #666666;
-    --color-link:         #0066cc;
-    --color-link-hover:   #004499;
+    /* Brand (joehunter.es palette) */
+    --color-brand:            #03f8bd;
+    --color-brand-hover:      #03dfaa;
+    --color-brand-subtle:     #e6fef8;
+    --color-accent:           #8869b4;
+    --color-accent-hover:     #6e52a0;
+
+    /* Dark surfaces */
+    --color-surface:          #606060;
+    --color-surface-dark:     #535353;
+    --color-surface-mid:      #7a7a7a;
+    --color-on-surface:       #efefef;
+    --color-on-surface-muted: #cfcfcf;
+
+    /* Semantic colours */
+    --color-text:         #444444;
+    --color-text-muted:   #777777;
+    --color-link:         var(--color-brand);
+    --color-link-hover:   var(--color-brand-hover);
     --color-bg:           #ffffff;
     --color-bg-subtle:    #f4f4f4;
     --color-border:       #dddddd;
     --color-border-strong:#cccccc;
 
     /* Type scale */
-    --font-family:        system-ui, sans-serif;
+    --font-family:        'Titillium Web', system-ui, sans-serif;
     --font-family-mono:   ui-monospace, 'Cascadia Code', monospace;
     --font-size-sm:       0.875rem;
     --font-size-base:     1rem;
