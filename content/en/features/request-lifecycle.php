@@ -29,7 +29,7 @@ Router::resolve($path)
     ↓
 Explicit Routes? (sitemap.xml, custom routes)
     ↓ No
-File-Based Routes (PageController)
+File-Based Routes (ContentController)
     ↓
 ContentRepository::find($path)
     ↓
@@ -37,7 +37,7 @@ File exists?
     ↓ Yes
 PhpFileParser::parseFile() (extract metadata, render body)
     ↓
-PageController::handle() (merge with layout)
+ContentController::handle() (merge with layout)
     ↓
 Renderer::render('page', $data)
     ↓

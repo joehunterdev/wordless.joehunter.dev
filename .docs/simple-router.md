@@ -2,9 +2,10 @@
 
 public/
     /es
-        /perfil
-        /projectos
-            /projectos
-            public/
-    /en
-        /profile
+        sobre.php
+        /feature
+            /algun-estandard-descatado
+                /mas-explicacion
+        index.php         
+
+//same in english

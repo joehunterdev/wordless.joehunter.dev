@@ -16,4 +16,9 @@
  */
 return [
     'debug' => true,
+    'cache_enabled' => false,  // Disable caching during development
+
+    'menu' => [
+        'home_slugs' => ['home', 'index'],  // Which slugs count as "homepage"
+    ],
 ];

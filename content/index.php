@@ -1,4 +1,7 @@
-<?php $meta = ['title' => 'Home', 'date' => '2026-05-05']; ?>
+<?php $meta = [
+    'title' => 'Home',
+    'menu'  => ['order' => 1, 'title' => 'Home'],
+]; ?>
 
 <h1>Welcome to Wordless</h1>
 

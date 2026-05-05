@@ -77,7 +77,7 @@ class Router
     public function match(Request $request): RequestHandlerInterface
     {
         $path = $request->getUri()->getPath();
-        return new PageController($path);
+        return new ContentController($path);
     }
 }
 
@@ -137,7 +137,7 @@ YamlParser
 
 Strategy Pattern
 5. Controllers
-class PageController implements RequestHandlerInterface
+class ContentController implements RequestHandlerInterface
 {
     public function __construct(
         private string $path

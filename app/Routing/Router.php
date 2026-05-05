@@ -8,7 +8,7 @@ use Wordless\Core\Container;
 use Wordless\Http\HandlerInterface;
 use Wordless\Http\Request;
 use Wordless\Http\Response;
-use Wordless\Http\Controllers\PageController;
+use Wordless\Http\Controllers\ContentController;
 use Wordless\Http\Controllers\NotFoundController;
 
 class Router
@@ -34,7 +34,7 @@ class Router
         }
 
         // File-based routing: path maps directly to directory structure
-        return new PageController($this->container, $path);
+        return new ContentController($this->container, $path);
     }
 
 }

@@ -2,6 +2,7 @@
     'title'       => 'Content Repository',
     'description' => 'The Content Repository pattern in Wordless: structured loading, querying, and metadata inheritance for flat-file content.',
     'date'        => '2026-05-05',
+    'menu'        => ['parent' => '/en/features', 'order' => 3],
 ]; ?>
 
 <h1>Content Repository</h1>

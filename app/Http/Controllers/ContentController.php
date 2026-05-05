@@ -11,7 +11,7 @@ use Wordless\Http\Request;
 use Wordless\Http\Response;
 use Wordless\Templating\Renderer;
 
-class PageController implements HandlerInterface
+class ContentController implements HandlerInterface
 {
     public function __construct(
         private readonly Container $container,
@@ -34,9 +34,13 @@ class PageController implements HandlerInterface
 
         /** @var Renderer $renderer */
         $renderer = $this->container->get(Renderer::class);
+        $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
 
         return Response::html(
-            $renderer->render('page', ['content' => $content])
+            $renderer->render('page', [
+                'content' => $content,
+                'currentPath' => $currentPath,
+            ])
         );
     }
 }

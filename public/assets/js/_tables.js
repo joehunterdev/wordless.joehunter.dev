@@ -9,7 +9,6 @@ document.querySelectorAll('table[data-sortable]').forEach(table => {
         th.style.cursor = 'pointer';
         th.setAttribute('aria-sort', 'none');
         th.title = `Sort by ${th.textContent.trim()}`;
-
         th.addEventListener('click', () => {
             const ascending = th.getAttribute('aria-sort') !== 'ascending';
             sortTable(table, colIndex, ascending);

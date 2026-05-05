@@ -1,9 +1,9 @@
+<?php
+/** @var Wordless\Templating\Renderer $renderer */
+/** @var string $currentPath */
+$currentPath = $currentPath ?? '';
+?>
 <header>
-    <nav class="site-nav">
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-        <a href="/features">Features</a>
-        <a href="/docs">Docs</a>
-        <a href="/blog">Blog</a>
-    </nav>
+    <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle navigation">☰</button>
+    <?= $renderer->renderMenu($currentPath) ?>
 </header>

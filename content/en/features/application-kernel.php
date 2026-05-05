@@ -2,6 +2,7 @@
     'title'       => 'Application Kernel',
     'description' => 'Understanding the Wordless application kernel: request handling, bootstrapping, and the core request lifecycle.',
     'date'        => '2026-05-05',
+    'menu'        => ['parent' => '/en/features', 'order' => 1],
 ]; ?>
 
 <h1>Application Kernel</h1>
@@ -37,7 +38,7 @@ Middleware Stack
   ↓
 Router::resolve()
   ↓
-Handler (PageController, SitemapController, etc)
+Handler (ContentController, SitemapController, etc)
   ↓
 Response
   ↓
