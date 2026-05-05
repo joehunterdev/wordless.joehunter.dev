@@ -5,6 +5,7 @@ declare(strict_types=1);
 require __DIR__ . '/autoload.php';
 
 use Wordless\Cache\Cache;
+use Wordless\Config\Config;
 use Wordless\Content\ContentRepositoryInterface;
 use Wordless\Content\FileContentRepository;
 use Wordless\Core\Application;
@@ -16,7 +17,12 @@ use Wordless\Plugins\PluginManager;
 use Wordless\Routing\Router;
 use Wordless\Templating\Renderer;
 
-$config = require __DIR__ . '/../config/app.php';
+// Load defaults then merge user overrides
+$overrides = file_exists(__DIR__ . '/../config/app.php')
+    ? require __DIR__ . '/../config/app.php'
+    : [];
+
+$config = Config::load($overrides)->all();
 
 $container = new Container();
 

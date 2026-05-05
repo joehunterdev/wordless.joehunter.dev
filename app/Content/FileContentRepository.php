@@ -4,51 +4,37 @@ declare(strict_types=1);
 
 namespace Wordless\Content;
 
-use Wordless\Content\Parser\ParserInterface;
-use Wordless\Content\Parser\MarkdownParser;
+use Wordless\Content\Parser\PhpFileParser;
 
 class FileContentRepository implements ContentRepositoryInterface
 {
     private readonly string $contentDir;
-
-    /** @var array<string, ParserInterface> */
-    private array $parsers = [];
+    private readonly PhpFileParser $phpParser;
 
     public function __construct(string $contentDir)
     {
         $this->contentDir = rtrim($contentDir, '/\\');
-        $this->parsers    = [
-            'md'   => new MarkdownParser(),
-        ];
+        $this->phpParser  = new PhpFileParser();
     }
 
     public function find(string $path): ?Content
     {
         $path = '/' . trim($path, '/');
+        $slug = trim($path, '/') ?: 'home';
 
-        // Try /pages first, then /posts
         $candidates = [
-            $this->contentDir . '/pages' . $path . '.md',
-            $this->contentDir . '/posts' . $path . '.md',
-            $this->contentDir . '/pages' . $path . '/index.md',
+            $this->contentDir . '/pages' . $path . '.php',
+            $this->contentDir . '/pages' . $path . '/index.php',
+            $this->contentDir . '/posts' . $path . '.php',
         ];
 
-        // Root maps to /pages/index.md
         if ($path === '/') {
-            array_unshift($candidates, $this->contentDir . '/pages/index.md');
+            array_unshift($candidates, $this->contentDir . '/pages/index.php');
         }
 
         foreach ($candidates as $file) {
             if (file_exists($file)) {
-                $ext    = pathinfo($file, PATHINFO_EXTENSION);
-                $parser = $this->parsers[$ext] ?? null;
-
-                if ($parser === null) {
-                    continue;
-                }
-
-                $slug = trim($path, '/') ?: 'home';
-                return $parser->parse(file_get_contents($file), $slug);
+                return $this->phpParser->parseFile($file, $slug);
             }
         }
 
@@ -69,12 +55,12 @@ class FileContentRepository implements ContentRepositoryInterface
         );
 
         foreach ($files as $file) {
-            if ($file->getExtension() !== 'md') {
+            if ($file->getExtension() !== 'php') {
                 continue;
             }
 
             $relative = str_replace($dir, '', $file->getPathname());
-            $slug     = trim(str_replace(['\\', '/index.md', '.md'], ['/', '', ''], $relative), '/');
+            $slug     = trim(str_replace(['\\', '/index.php', '.php'], ['/', '', ''], $relative), '/');
             $path     = '/' . $slug;
 
             $content = $this->find($path);

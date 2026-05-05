@@ -8,5 +8,5 @@ use Wordless\Content\Content;
 
 interface ParserInterface
 {
-    public function parse(string $raw, string $slug): Content;
+    public function parseFile(string $filePath, string $slug): Content;
 }
