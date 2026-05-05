@@ -19,6 +19,12 @@ class CacheMiddleware implements HandlerInterface
 
     public function handle(Request $request): Response
     {
+        // Check if caching is enabled in config
+        $config = $this->container->get('config');
+        if (isset($config['cache_enabled']) && $config['cache_enabled'] === false) {
+            return $this->next->handle($request);
+        }
+
         // Only cache GET requests
         if ($request->getMethod() !== 'GET') {
             return $this->next->handle($request);

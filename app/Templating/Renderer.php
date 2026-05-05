@@ -19,14 +19,14 @@ class Renderer
      */
     public function render(string $template, array $data = []): string
     {
-        $file = $this->templateDir . '/' . $template . '.php';
+        $templateFile = $this->templateDir . '/' . $template . '.php';
 
-        if (!file_exists($file)) {
+        if (!file_exists($templateFile)) {
             throw new \RuntimeException("Template not found: {$template}");
         }
 
         // Always inject $renderer so partials are callable from any template
-        $data += ['renderer' => $this];
+        $data['renderer'] = $this;
 
         // Extract data into local scope, then buffer output
         extract($data, EXTR_SKIP);
@@ -36,14 +36,15 @@ class Renderer
         $pageTitle = '';
 
         ob_start();
-        require $file;
+        require $templateFile;
         $slot = ob_get_clean();
 
         if ($layout !== null) {
             return $this->render('layouts/' . $layout, [
                 'slot'      => $slot,
                 'pageTitle' => $pageTitle,
-            ]);
+                'renderer'  => $this, // Ensure renderer is available in layout too
+            ] + $data);
         }
 
         return $slot;
@@ -77,6 +78,9 @@ class Renderer
         // For now, let's build this more dynamically
         $menuItems = $this->getMenuItems();
         
+        // Debug: show what we got
+        $debug = "<!-- DEBUG MENU ITEMS: " . json_encode($menuItems) . " -->";
+        
         $nav = '<nav class="site-nav">';
         $nav .= '<ul class="navbar">';
         
@@ -102,7 +106,7 @@ class Renderer
         $nav .= '</ul>';
         $nav .= '</nav>';
         
-        return $nav;
+        return $debug . $nav;
     }
     
     /**
@@ -168,23 +172,42 @@ class Renderer
         $hierarchy = [];
         $itemsByPath = [];
         
+        // Debug: log what we're working with
+        error_log("Building menu hierarchy from: " . json_encode($items));
+        
         // Index by path
         foreach ($items as $item) {
             $itemsByPath[$item['path']] = $item + ['children' => []];
         }
         
+        error_log("Items by path: " . json_encode(array_keys($itemsByPath)));
+        
         // Build hierarchy
         foreach ($itemsByPath as $path => $item) {
             if ($item['parent']) {
+                error_log("Looking for parent '{$item['parent']}' for item '{$path}'");
                 if (isset($itemsByPath[$item['parent']])) {
                     $itemsByPath[$item['parent']]['children'][] = $item;
+                    error_log("Added '{$path}' as child of '{$item['parent']}'");
                 } else {
                     $hierarchy[] = $item; // Orphaned child becomes top-level
+                    error_log("Orphaned child: '{$path}' (parent '{$item['parent']}' not found)");
                 }
             } else {
                 $hierarchy[] = $item;
+                error_log("Top-level item: '{$path}'");
             }
         }
+        
+        // Update hierarchy with items that now have children
+        $hierarchy = [];
+        foreach ($itemsByPath as $path => $item) {
+            if (!$item['parent']) {
+                $hierarchy[] = $item;
+            }
+        }
+        
+        error_log("Final hierarchy: " . json_encode($hierarchy));
         
         return $hierarchy;
     }

@@ -8,7 +8,7 @@
 <?= $renderer->partial('head', ['pageTitle' => $pageTitle ?? '']) ?>
 <body>
     <div class="site-wrapper">
-        <?= $renderer->partial('nav') ?>
+        <?= $renderer->partial('nav', ['currentPath' => $currentPath ?? '']) ?>
         <main>
             <?= $slot ?? '' ?>
         </main>

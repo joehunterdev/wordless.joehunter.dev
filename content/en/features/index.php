@@ -2,6 +2,7 @@
     'title'       => 'Architecture & Features',
     'description' => 'Explore Wordless CMS architecture: file-based routing, content repository, templating, and more.',
     'date'        => '2026-05-05',
+    'menu'        => ['order' => 3, 'title' => 'Features'],
 ]; ?>
 
 <h1>Architecture & Features</h1>

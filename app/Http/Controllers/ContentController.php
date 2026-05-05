@@ -34,7 +34,9 @@ class ContentController implements HandlerInterface
 
         /** @var Renderer $renderer */
         $renderer = $this->container->get(Renderer::class);
-        $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
+        
+        // Handle homepage (empty path) and other paths
+        $currentPath = $this->path === '' ? '/' : '/' . ltrim($this->path, '/');
 
         return Response::html(
             $renderer->render('page', [
