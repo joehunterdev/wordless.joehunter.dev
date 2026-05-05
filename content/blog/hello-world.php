@@ -12,6 +12,6 @@
 &lt;p&gt;Content here.&lt;/p&gt;
 </code></pre>
 
-<p>Drop it in <code>/content/posts/</code> and it's live at <code>/posts/my-post</code>.</p>
+<p>Drop it in <code>content/blog/</code> and it's live at <code>/blog/hello-world</code>.</p>
 
 <p><a href="/blog">← Back to blog</a></p>

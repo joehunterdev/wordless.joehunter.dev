@@ -31,8 +31,8 @@
             '/es/algo'                           => 'content/pages/es/algo.php',
         ] as $url => $file): ?>
             <tr>
-                <td><code><?= htmlspecialchars($url) ?></code></td>
-                <td><code><?= htmlspecialchars($file) ?></code></td>
+                <td><code><?= e($url) ?></code></td>
+                <td><code><?= e($file) ?></code></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

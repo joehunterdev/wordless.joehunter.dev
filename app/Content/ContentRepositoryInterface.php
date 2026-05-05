@@ -9,5 +9,5 @@ interface ContentRepositoryInterface
     public function find(string $path): ?Content;
 
     /** @return Content[] */
-    public function all(string $type = 'pages'): array;
+    public function all(string $path = ''): array;
 }

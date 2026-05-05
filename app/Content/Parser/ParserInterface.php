@@ -8,5 +8,5 @@ use Wordless\Content\Content;
 
 interface ParserInterface
 {
-    public function parseFile(string $filePath, string $slug): Content;
+    public function parseFile(string $filePath, string $slug, array $inheritedMeta = []): Content;
 }

@@ -19,7 +19,7 @@ use Wordless\Content\Content;
  */
 class PhpFileParser implements ParserInterface
 {
-    public function parseFile(string $filePath, string $slug): Content
+    public function parseFile(string $filePath, string $slug, array $inheritedMeta = []): Content
     {
         if (!file_exists($filePath)) {
             throw new \RuntimeException("Content file not found: {$filePath}");
@@ -29,6 +29,8 @@ class PhpFileParser implements ParserInterface
         $meta = [];
         $body = $this->capture($filePath, $meta);
 
+        // Page meta wins over inherited meta
+        $meta  = array_merge($inheritedMeta, $meta);
         $title = $meta['title'] ?? $this->titleFromSlug($slug);
 
         return new Content(

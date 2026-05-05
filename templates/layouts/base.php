@@ -7,10 +7,12 @@
 <html lang="en">
 <?= $renderer->partial('head', ['pageTitle' => $pageTitle ?? '']) ?>
 <body>
-    <?= $renderer->partial('nav') ?>
-    <main>
-        <?= $slot ?? '' ?>
-    </main>
-    <?= $renderer->partial('footer') ?>
+    <div class="site-wrapper">
+        <?= $renderer->partial('nav') ?>
+        <main>
+            <?= $slot ?? '' ?>
+        </main>
+        <?= $renderer->partial('footer') ?>
+    </div>
 </body>
 </html>

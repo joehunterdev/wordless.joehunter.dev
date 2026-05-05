@@ -1,0 +1,64 @@
+/* ==========================================================================
+   Components — named UI pieces
+   ========================================================================== */
+
+/* --- Nav ----------------------------------------------------------------- */
+
+.site-nav {
+    padding-bottom: var(--space-4);
+    margin-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.site-nav a {
+    margin-right: var(--space-4);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.site-nav a:hover {
+    text-decoration: underline;
+}
+
+.site-nav a[aria-current="page"] {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* --- Article ------------------------------------------------------------- */
+
+.article-body h1:first-child {
+    margin-top: 0;
+}
+
+/* --- Copy button --------------------------------------------------------- */
+
+.copy-btn {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+pre:hover .copy-btn,
+.copy-btn:focus {
+    opacity: 1;
+}
+
+/* --- Code filename label ------------------------------------------------- */
+
+.code-filename {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    font-family: var(--font-family-mono);
+    margin-bottom: calc(var(--space-1) * -1);
+}

@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Tokens — design system foundations
+   All other files consume these; nothing is hardcoded elsewhere.
+   ========================================================================== */
+
+:root {
+    /* Colour palette */
+    --color-text:         #222222;
+    --color-text-muted:   #666666;
+    --color-link:         #0066cc;
+    --color-link-hover:   #004499;
+    --color-bg:           #ffffff;
+    --color-bg-subtle:    #f4f4f4;
+    --color-border:       #dddddd;
+    --color-border-strong:#cccccc;
+
+    /* Type scale */
+    --font-family:        system-ui, sans-serif;
+    --font-family-mono:   ui-monospace, 'Cascadia Code', monospace;
+    --font-size-sm:       0.875rem;
+    --font-size-base:     1rem;
+    --font-size-lg:       1.25rem;
+    --line-height:        1.6;
+
+    /* Spacing */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-12: 3rem;
+
+    /* Layout */
+    --content-max-width:  800px;
+
+    /* Radii */
+    --radius-sm: 3px;
+    --radius-md: 4px;
+}

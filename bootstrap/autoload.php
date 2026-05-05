@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require __DIR__ . '/../app/helpers.php';
+
 spl_autoload_register(function (string $class): void {
     // Map namespace prefixes to base directories
     $prefixes = [
