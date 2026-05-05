@@ -22,14 +22,18 @@ class FileContentRepository implements ContentRepositoryInterface
         $path = '/' . trim($path, '/');
         $slug = trim($path, '/') ?: 'home';
 
-        $candidates = [
-            $this->contentDir . '/pages' . $path . '.php',
-            $this->contentDir . '/pages' . $path . '/index.php',
-            $this->contentDir . '/posts' . $path . '.php',
+        $prefixes   = [
+            $this->contentDir . '/pages',
+            $this->contentDir . '/posts',
         ];
 
-        if ($path === '/') {
-            array_unshift($candidates, $this->contentDir . '/pages/index.php');
+        $candidates = [];
+        foreach ($prefixes as $prefix) {
+            if ($path === '/') {
+                $candidates[] = $prefix . '/index.php';
+            }
+            $candidates[] = $prefix . $path . '.php';
+            $candidates[] = $prefix . $path . '/index.php';
         }
 
         foreach ($candidates as $file) {

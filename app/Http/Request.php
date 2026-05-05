@@ -8,17 +8,20 @@ class Request
 {
     private readonly string $method;
     private readonly string $path;
+    private readonly string $locale;
     private readonly array  $query;
     private readonly array  $headers;
 
     public function __construct(
         string $method,
         string $path,
+        string $locale = '',
         array $query = [],
         array $headers = []
     ) {
         $this->method  = strtoupper($method);
         $this->path    = '/' . trim($path, '/');
+        $this->locale  = $locale;
         $this->query   = $query;
         $this->headers = $headers;
     }
@@ -33,6 +36,11 @@ class Request
             query:   $_GET,
             headers: getallheaders() ?: []
         );
+    }
+
+    public function getLocale(): string
+    {
+        return $this->locale;
     }
 
     public function getMethod(): string

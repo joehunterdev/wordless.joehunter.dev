@@ -33,7 +33,8 @@ class Router
             return new $class($this->container);
         }
 
-        // File-based routing: map URL path → content file
+        // File-based routing: path maps directly to directory structure
         return new PageController($this->container, $path);
     }
+
 }

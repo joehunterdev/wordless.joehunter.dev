@@ -18,8 +18,8 @@ use Wordless\Routing\Router;
 use Wordless\Templating\Renderer;
 
 // Load defaults then merge user overrides
-$overrides = file_exists(__DIR__ . '/../config/app.php')
-    ? require __DIR__ . '/../config/app.php'
+$overrides = file_exists(__DIR__ . '/../config.php')
+    ? require __DIR__ . '/../config.php'
     : [];
 
 $config = Config::load($overrides)->all();
