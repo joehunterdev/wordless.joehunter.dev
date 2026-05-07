@@ -1,6 +1,5 @@
 <?php $meta = [
     'title' => 'Home',
-    'menu'  => ['order' => 1, 'title' => 'Home'],
     'keywords' => ['wordless', 'cms', 'flat-file', 'php', 'simple'],
 ]; ?>
 
@@ -22,9 +21,7 @@
 </ul>
 
 <blockquote>
-    <p>No database. No Composer. No Node. Just Add Magic
-
-</p>
+    <p>No database. No Composer. No magic.</p>
 </blockquote>
 
-<p><a href="/about">Read more about the project →</a></p>
+<p><a href="/en">Go to English →</a> or <a href="/es">Ir al Español →</a></p>

@@ -21,9 +21,9 @@ if ($siteUrl !== '') {
     if (str_starts_with($currentPath, '/es')) {
         $altLang = 'en';
         $altPath = match(true) {
-            $currentPath === '/es'                               => '/',
-            $currentPath === '/es/acerca'                        => '/about',
-            $currentPath === '/es/blog'                          => '/blog',
+            $currentPath === '/es'                               => '/en',
+            $currentPath === '/es/acerca'                        => '/en/about',
+            $currentPath === '/es/blog'                          => '/en/blog',
             str_starts_with($currentPath, '/es/caracteristicas') => preg_replace('#^/es/caracteristicas#', '/en/features', $currentPath),
             default                                              => preg_replace('#^/es#', '/en', $currentPath),
         };
@@ -31,18 +31,16 @@ if ($siteUrl !== '') {
     } elseif (str_starts_with($currentPath, '/en')) {
         $altLang = 'es';
         $altPath = match(true) {
-            str_starts_with($currentPath, '/en/features') => preg_replace('#^/en/features#', '/es/caracteristicas', $currentPath),
-            default                                        => preg_replace('#^/en#', '/es', $currentPath),
+            $currentPath === '/en'                          => '/es',
+            $currentPath === '/en/about'                    => '/es/acerca',
+            $currentPath === '/en/blog'                     => '/es/blog',
+            str_starts_with($currentPath, '/en/features')   => preg_replace('#^/en/features#', '/es/caracteristicas', $currentPath),
+            default                                         => preg_replace('#^/en#', '/es', $currentPath),
         };
         $altHref = $siteUrl . $altPath;
     } else {
         $altLang = 'es';
-        $altPath = match($currentPath) {
-            '/'      => '/es',
-            '/about' => '/es/acerca',
-            '/blog'  => '/es/blog',
-            default  => '/es',
-        };
+        $altPath = '/es';
         $altHref = $siteUrl . $altPath;
     }
 }
