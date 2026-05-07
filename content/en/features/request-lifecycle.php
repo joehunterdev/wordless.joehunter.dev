@@ -1,7 +1,8 @@
 <?php $meta = [
     'title'       => 'Request Lifecycle',
     'description' => 'Understanding the complete request lifecycle in Wordless: from HTTP request to HTML response.',
-    'date'        => '2026-05-05',
+    'menu'        => ['parent' => '/en/features', 'order' => 5],
+    'keywords'    => ['request', 'lifecycle', 'middleware', 'flow', 'response'],
 ]; ?>
 
 <h1>Request Lifecycle</h1>

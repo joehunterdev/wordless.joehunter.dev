@@ -1,7 +1,8 @@
 <?php $meta = [
     'title'       => 'Filesystem Architecture',
     'description' => 'Best practices for organizing content in Wordless: folder structure, naming conventions, and scalable patterns.',
-    'date'        => '2026-05-05',
+    'menu'        => ['parent' => '/en/features', 'order' => 7],
+    'keywords'    => ['architecture', 'filesystem', 'structure', 'organization', 'conventions'],
 ]; ?>
 
 <h1>Filesystem Architecture</h1>

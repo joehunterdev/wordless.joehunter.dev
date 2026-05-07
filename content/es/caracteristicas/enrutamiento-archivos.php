@@ -1,7 +1,8 @@
 <?php $meta = [
     'title'       => 'Enrutamiento por Archivos',
     'description' => 'Cómo Wordless mapea URLs directamente al sistema de archivos. Sin configuración, sin definiciones de rutas.',
-    'date'        => '2026-05-05',
+    'menu'        => ['parent' => '/es/caracteristicas', 'order' => 2],
+    'keywords'    => ['enrutamiento', 'urls', 'archivos', 'convenciones', 'rutas'],
 ]; ?>
 
 <h1>Enrutamiento por Archivos</h1>

@@ -1,8 +1,8 @@
 <?php $meta = [
     'title'       => 'Architecture & Features',
     'description' => 'Explore Wordless CMS architecture: file-based routing, content repository, templating, and more.',
-    'date'        => '2026-05-05',
     'menu'        => ['order' => 3, 'title' => 'Features'],
+    'keywords'    => ['architecture', 'features', 'design', 'patterns', 'components'],
 ]; ?>
 
 <h1>Architecture & Features</h1>

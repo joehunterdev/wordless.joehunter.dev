@@ -1,7 +1,8 @@
 <?php $meta = [
     'title'       => 'Sistema de Plantillas',
     'description' => 'Plantillas PHP puras en Wordless: layouts, parciales y mejores prácticas para construir vistas reutilizables.',
-    'date'        => '2026-05-05',
+    'menu'        => ['parent' => '/es/caracteristicas', 'order' => 4],
+    'keywords'    => ['plantillas', 'vistas', 'layouts', 'parciales', 'php'],
 ]; ?>
 
 <h1>Sistema de Plantillas</h1>

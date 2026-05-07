@@ -15,8 +15,17 @@
  *   'cache_ttl'    => 3600
  */
 return [
-    'debug' => true,
+    'debug'         => true,
     'cache_enabled' => false,  // Disable caching during development
+
+    'meta' => [
+        'lang'        => 'en',
+        'locale'      => 'en-US',
+        'dir'         => 'ltr',
+        'description' => 'A minimal, dependency-free flat-file CMS built with modern PHP.',
+        'keywords'    => ['wordless', 'cms', 'php', 'flat-file'],
+        'site_url'    => 'https://wordless.joehunter.dev',
+    ],
 
     'menu' => [
         'home_slugs' => ['home', 'index'],  // Which slugs count as "homepage"

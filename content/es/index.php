@@ -4,6 +4,7 @@
     'locale'   => 'es-ES',
     'dir'      => 'ltr',
     'menu'     => ['order' => 1, 'title' => 'Inicio'],
+    'keywords' => ['wordless', 'cms', 'php', 'español', 'simple'],
 ]; ?>
 
 <h1>Bienvenido a Wordless</h1>

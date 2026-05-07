@@ -1,7 +1,8 @@
 <?php $meta = [
     'title'       => 'Ciclo de Vida de Solicitudes',
     'description' => 'Comprendiendo el ciclo de vida completo de solicitudes en Wordless: desde la petición HTTP hasta la respuesta HTML.',
-    'date'        => '2026-05-05',
+    'menu'        => ['parent' => '/es/caracteristicas', 'order' => 5],
+    'keywords'    => ['solicitud', 'ciclo', 'middleware', 'flujo', 'respuesta'],
 ]; ?>
 
 <h1>Ciclo de Vida de Solicitudes</h1>

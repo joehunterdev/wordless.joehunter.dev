@@ -1,7 +1,8 @@
 <?php $meta = [
     'title'       => 'Internationalization',
     'description' => 'Multi-language support in Wordless: organize content by language, inherit locale metadata, and scale globally.',
-    'date'        => '2026-05-05',
+    'menu'        => ['parent' => '/en/features', 'order' => 6],
+    'keywords'    => ['i18n', 'internationalization', 'languages', 'localization', 'multilingual'],
 ]; ?>
 
 <h1>Internationalization (i18n)</h1>

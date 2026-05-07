@@ -1,7 +1,8 @@
 <?php $meta = [
     'title'       => 'Internacionalización',
     'description' => 'Soporte multilingüe en Wordless mediante estructura de directorios — sin plugins, sin configuración compleja.',
-    'date'        => '2026-05-05',
+    'menu'        => ['parent' => '/es/caracteristicas', 'order' => 6],
+    'keywords'    => ['i18n', 'internacionalización', 'idiomas', 'localización', 'multilingüe'],
 ]; ?>
 
 <h1>Internacionalización</h1>

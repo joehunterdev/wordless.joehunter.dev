@@ -1,7 +1,7 @@
 <?php $meta = [
     'title' => 'Blog',
-    'date'  => '2026-05-05',
     'menu'  => ['order' => 4, 'title' => 'Blog'],
+    'keywords' => ['wordless', 'blog', 'posts', 'artículos', 'tutoriales'],
 ]; ?>
 
 <h1>Blog</h1>

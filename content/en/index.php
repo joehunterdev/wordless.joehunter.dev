@@ -3,7 +3,7 @@
     'language'    => 'en',
     'locale'      => 'en-US',
     'dir'         => 'ltr',
-    'description' => 'English language content',
+    'keywords'    => ['wordless', 'cms', 'php', 'english'],
 ]; ?>
 
 <h1>Welcome</h1>

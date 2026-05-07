@@ -10,11 +10,13 @@ class FileContentRepository implements ContentRepositoryInterface
 {
     private readonly string $contentDir;
     private readonly PhpFileParser $phpParser;
+    private readonly array $defaultMeta;
 
-    public function __construct(string $contentDir)
+    public function __construct(string $contentDir, array $defaultMeta = [])
     {
-        $this->contentDir = rtrim($contentDir, '/\\');
-        $this->phpParser  = new PhpFileParser();
+        $this->contentDir  = rtrim($contentDir, '/\\');
+        $this->phpParser   = new PhpFileParser();
+        $this->defaultMeta = $defaultMeta;
     }
 
     public function find(string $path): ?Content
@@ -32,7 +34,8 @@ class FileContentRepository implements ContentRepositoryInterface
 
         foreach ($candidates as $file) {
             if (file_exists($file)) {
-                $inherited = $this->inheritedMeta($file);
+                // config defaults → ancestor chain → page (innermost wins)
+                $inherited = array_merge($this->defaultMeta, $this->inheritedMeta($file));
                 return $this->phpParser->parseFile($file, $slug, $inherited);
             }
         }
@@ -81,6 +84,10 @@ class FileContentRepository implements ContentRepositoryInterface
                 ob_end_clean();
                 return is_array($meta) ? $meta : [];
             })($indexFile);
+            // Keywords merge as array union; all other keys: innermost wins
+            if (isset($data['keywords']) && isset($merged['keywords'])) {
+                $data['keywords'] = array_values(array_unique(array_merge($merged['keywords'], (array) $data['keywords'])));
+            }
             $merged = array_merge($merged, $data);
         }
 
