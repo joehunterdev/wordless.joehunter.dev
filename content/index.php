@@ -1,6 +1,6 @@
 <?php $meta = [
     'title' => 'Home',
-    'menu'  => ['order' => 1, 'title' => 'Home'],
+    'keywords' => ['wordless', 'cms', 'flat-file', 'php', 'simple'],
 ]; ?>
 
 <h1>Welcome to Wordless</h1>
@@ -24,4 +24,4 @@
     <p>No database. No Composer. No magic.</p>
 </blockquote>
 
-<p><a href="/about">Read more about the project →</a></p>
+<p><a href="/en">Go to English →</a> or <a href="/es">Ir al Español →</a></p>

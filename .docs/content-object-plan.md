@@ -1,0 +1,2 @@
+Content Object
+So the aim now essentially is (should i want to do tag based search) to use the keywords from meta to handle that search and predefine a relation. Similarly for say features/application-kernel it would be nice to be able to use this information to derive category relations. So a system where by this meta data is read by entry point in app and were able to derive a contentobject or content tree would be great to deliver. 

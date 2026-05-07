@@ -40,7 +40,7 @@ $container->singleton(Renderer::class, fn() =>
 );
 
 $container->singleton(ContentRepositoryInterface::class, fn() =>
-    new FileContentRepository($config['content_dir'])
+    new FileContentRepository($config['content_dir'], $config['meta'] ?? [])
 );
 
 $container->singleton(EventDispatcher::class, fn() =>
