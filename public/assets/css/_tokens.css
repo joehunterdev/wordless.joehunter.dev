@@ -5,11 +5,11 @@
 
 :root {
     /* Brand (joehunter.es palette) */
-    --color-brand:            #03f8bd;
-    --color-brand-hover:      #03dfaa;
-    --color-brand-subtle:     #e6fef8;
-    --color-accent:           #8869b4;
-    --color-accent-hover:     #6e52a0;
+    --color-brand:            #6FF3DC;
+    --color-brand-hover:      #50d9c2;
+    --color-brand-subtle:     #edfdf9;
+    --color-accent:           #654299;
+    --color-accent-hover:     #4f3278;
 
     /* Dark surfaces */
     --color-surface:          #606060;

@@ -4,12 +4,11 @@
 
 <div class="splash">
     <div class="splash__logo">
-        <span class="splash__mark">W</span>
-        <span class="splash__name">wordless</span>
+         <img src="<?= img('logo.png') ?>" alt="Wordless" height="96">
     </div>
     <p class="splash__tagline">Pure PHP. No database. No magic.</p>
     <div class="splash__langs">
-        <a class="splash__btn" href="/en">English</a>
-        <a class="splash__btn" href="/es">Español</a>
+        <a class="btn btn--primary" href="<?= route('index', 'en') ?>">English</a>
+        <a class="btn btn--outline" href="<?= route('index', 'es') ?>">Espa&ntilde;ol</a>
     </div>
 </div>

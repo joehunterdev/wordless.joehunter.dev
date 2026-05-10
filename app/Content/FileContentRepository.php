@@ -118,6 +118,12 @@ class FileContentRepository implements ContentRepositoryInterface
                 continue;
             }
 
+            // Skip redirect shims — files that call header() with a Location
+            $source = file_get_contents($file->getPathname());
+            if ($source !== false && str_contains($source, 'header(') && str_contains($source, 'Location')) {
+                continue;
+            }
+
             $relative = relative_path($file->getPathname(), $this->contentDir);
             $slug     = trim(str_replace(['/index.php', '.php'], ['', ''], $relative), '/');
 
