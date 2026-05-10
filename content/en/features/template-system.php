@@ -138,4 +138,4 @@ $renderer;          // Always available
     <li><strong>Separate concerns:</strong> Keep template markup away from PHP logic when possible</li>
 </ul>
 
-<p><a href="/en/features">← Back to Features</a></p>
+<p><a href="<?= route('features', 'en') ?>">← Back to Features</a></p>

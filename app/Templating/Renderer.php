@@ -153,15 +153,30 @@ class Renderer
     }
     
     /**
-     * Extract metadata from a PHP content file.
+     * Extract only the $meta array from a PHP content file without executing
+     * side-effects like header() or exit. Parses the raw source and evals
+     * just the first $meta = [...]; assignment.
      */
     private function extractMeta(string $filePath): array
     {
-        $meta = [];
-        ob_start();
-        require $filePath;
-        ob_end_clean();
-        return $meta;
+        $source = file_get_contents($filePath);
+        if ($source === false) {
+            return [];
+        }
+
+        // Match the first $meta = [...]; or $meta = array(...); block
+        if (!preg_match('/\$meta\s*=\s*(\[[\s\S]*?\]|array\s*\([\s\S]*?\))\s*;/m', $source, $matches)) {
+            return [];
+        }
+
+        try {
+            $meta = [];
+            // phpcs:ignore
+            eval('$meta = ' . $matches[1] . ';');
+            return is_array($meta) ? $meta : [];
+        } catch (\Throwable) {
+            return [];
+        }
     }
     
     /**

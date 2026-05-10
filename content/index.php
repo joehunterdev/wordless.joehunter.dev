@@ -16,7 +16,7 @@
         'File-based caching',
         'Plugin & event system',
     ] as $feature): ?>
-        <li><?= htmlspecialchars($feature) ?></li>
+        <li><?= e($feature) ?></li>
     <?php endforeach; ?>
 </ul>
 

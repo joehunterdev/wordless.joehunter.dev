@@ -125,7 +125,7 @@ $posts = $repo->all('blog');
 
 <hr>
 
-<p><a href="/en/features">← Back to Features</a></p>
+<p><a href="<?= route('features', 'en') ?>">← Back to Features</a></p>
 
 <h2>Core Methods</h2>
 
@@ -218,4 +218,4 @@ $content-&gt;get($key, $default) // Get specific metadata value
     <li>Returns a structured Content object</li>
 </ol>
 
-<p><a href="/en/features">← Back to Features</a></p>
+<p><a href="<?= route('features', 'en') ?>">← Back to Features</a></p>

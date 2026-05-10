@@ -15,7 +15,7 @@
         'Sin Composer — cero dependencias de terceros',
         'Sin magia — código limpio, legible y testeable',
     ] as $point): ?>
-        <li><?= htmlspecialchars($point) ?></li>
+        <li><?= e($point) ?></li>
     <?php endforeach; ?>
 </ul>
 
@@ -32,4 +32,4 @@
     <li><code>app/Plugins</code> — Sistema de registro de plugins</li>
 </ul>
 
-<p><a href="/es">← Volver al inicio</a></p>
+<p><a href="<?= route('index', 'es') ?>">← Volver al inicio</a></p>

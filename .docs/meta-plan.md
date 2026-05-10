@@ -168,3 +168,8 @@ This means Spanish pages automatically get `<html lang="es">` via inheritance fr
 5. Update `page.php` to pass `$pageMeta` to layout
 6. Add `keywords` to all content files (can be done incrementally)
 7. Add `hreflang` alternate links (after lang switcher is stable)
+
+Questions answeerd
+
+yes so index.php in the root of a directory overrides the defaults by the site, so if index.php in es folder is locale 'es' everything in the folders within the folder that index lives should inherit (same for other values where empty), lets declare where needed, but urls are special right as this is a mostly folder/file driven project. Its the ordering i will find most tricky for menu items etc. date we can remove from the templates but keep in meta data. yes href lang is nice if u think that will help seo
+

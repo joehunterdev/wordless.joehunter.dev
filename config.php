@@ -17,6 +17,7 @@
 return [
     'debug'         => true,
     'cache_enabled' => false,  // Disable caching during development
+    'version' => "1.2.3",  
 
     'meta' => [
         'lang'        => 'en',

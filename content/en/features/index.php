@@ -15,13 +15,13 @@
 <h2>Core Components</h2>
 
 <ul>
-    <li><a href="/en/features/application-kernel">Application Kernel</a> — The request lifecycle and core bootstrapping</li>
-    <li><a href="/en/features/file-based-routing">File-Based Routing</a> — URL resolution through filesystem conventions</li>
-    <li><a href="/en/features/content-repository">Content Repository</a> — Structured content loading and querying</li>
-    <li><a href="/en/features/template-system">Template System</a> — Pure PHP templating with inheritance</li>
-    <li><a href="/en/features/request-lifecycle">Request Lifecycle</a> — How requests flow through the system</li>
-    <li><a href="/en/features/internationalization">Internationalization</a> — Multi-language support via directory structure</li>
-    <li><a href="/en/features/filesystem-architecture">Filesystem Architecture</a> — Content organization best practices</li>
+    <li><a href="<?= route('features/application-kernel', 'en') ?>">Application Kernel</a> — The request lifecycle and core bootstrapping</li>
+    <li><a href="<?= route('features/file-based-routing', 'en') ?>">File-Based Routing</a> — URL resolution through filesystem conventions</li>
+    <li><a href="<?= route('features/content-repository', 'en') ?>">Content Repository</a> — Structured content loading and querying</li>
+    <li><a href="<?= route('features/template-system', 'en') ?>">Template System</a> — Pure PHP templating with inheritance</li>
+    <li><a href="<?= route('features/request-lifecycle', 'en') ?>">Request Lifecycle</a> — How requests flow through the system</li>
+    <li><a href="<?= route('features/internationalization', 'en') ?>">Internationalization</a> — Multi-language support via directory structure</li>
+    <li><a href="<?= route('features/filesystem-architecture', 'en') ?>">Filesystem Architecture</a> — Content organization best practices</li>
 </ul>
 
 <h2>Design Philosophy</h2>

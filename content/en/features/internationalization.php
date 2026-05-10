@@ -158,4 +158,4 @@ echo '&lt;?php $meta = ["language" =&gt; "fr", "locale" =&gt; "fr-FR"]; ?&gt;' &
     <li><strong>Maintain parity:</strong> Keep content across languages reasonably synchronized</li>
 </ul>
 
-<p><a href="/en/features">← Back to Features</a></p>
+<p><a href="<?= route('features', 'en') ?>">← Back to Features</a></p>

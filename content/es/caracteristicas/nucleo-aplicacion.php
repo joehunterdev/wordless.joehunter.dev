@@ -74,4 +74,4 @@ $container-&gt;singleton(ContentRepositoryInterface::class, fn() =&gt;
 
 <hr>
 
-<p><a href="/es/caracteristicas">← Volver a Características</a></p>
+<p><a href="<?= route('caracteristicas', 'es') ?>">← Volver a Características</a></p>

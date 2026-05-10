@@ -237,4 +237,4 @@ content/guides/
     <li><strong>Minimize recursive scans:</strong> <code>all('path')</code> with a specific path is faster than <code>all()</code></li>
 </ul>
 
-<p><a href="/en/features">← Back to Features</a></p>
+<p><a href="<?= route('features', 'en') ?>">← Back to Features</a></p>
