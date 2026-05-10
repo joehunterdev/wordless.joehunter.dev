@@ -30,7 +30,7 @@ class FileContentRepository implements ContentRepositoryInterface
     public function find(string $path, ?object $renderer = null, string $currentPath = ''): ?Content
     {
         $path = $this->sanitizePath($path);
-        $slug = trim($path, '/') ?: 'home';
+        $root = $this->contentDir;
 
         if ($path === '/') {
             $candidates = [$root . '/index.php'];
@@ -40,8 +40,6 @@ class FileContentRepository implements ContentRepositoryInterface
                 $root . $path . '/index.php',
             ];
 
-            // For paths with no non-default locale prefix, also try the default locale dir.
-            // This makes content/en/about.php accessible at /about.
             if (!$this->hasLocalePrefix($path)) {
                 $candidates[] = $root . '/' . $this->defaultLocale . $path . '.php';
                 $candidates[] = $root . '/' . $this->defaultLocale . $path . '/index.php';
@@ -51,14 +49,14 @@ class FileContentRepository implements ContentRepositoryInterface
         foreach ($candidates as $file) {
             if (file_exists($file)) {
                 $inherited = array_merge($this->defaultMeta, $this->inheritedMeta($file));
-                return $this->phpParser->parseFile($file, $slug, $inherited, $renderer, $currentPath);
+                return $this->phpParser->parseFile($file, $path, $inherited, $renderer, $currentPath);
             }
         }
 
         return null;
     }
 
-    public function all(string $type = 'pages'): array
+    private function inheritedMeta(string $filePath): array
     {
         $contentRoot = realpath($this->contentDir);
         $dir         = dirname(realpath($filePath));
@@ -121,7 +119,7 @@ class FileContentRepository implements ContentRepositoryInterface
             $relative = relative_path($file->getPathname(), $this->contentDir);
             $slug     = trim(str_replace(['/index.php', '.php'], ['', ''], $relative), '/');
 
-            $content = $this->find($path);
+            $content = $this->find('/' . $slug);
             if ($content !== null) {
                 $items[] = $content;
             }
