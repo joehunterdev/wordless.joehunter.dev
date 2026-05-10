@@ -28,6 +28,7 @@ class ErrorMiddleware implements HandlerInterface
             if ($config['debug'] ?? false) {
                 $body = '<h1>Error</h1><pre>' . htmlspecialchars($e->getMessage() . "\n\n" . $e->getTraceAsString()) . '</pre>';
             } else {
+                error_log($e->getMessage() . "\n" . $e->getTraceAsString(), 3, ($config['log_dir'] ?? sys_get_temp_dir()) . '/error.log');
                 /** @var Renderer $renderer */
                 $renderer = $this->container->get(Renderer::class);
                 $body     = $renderer->render('500', []);

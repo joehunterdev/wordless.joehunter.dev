@@ -69,6 +69,36 @@ if (!function_exists('img')) {
     }
 }
 
+if (!function_exists('normalize_path')) {
+    function normalize_path(string $path): string
+    {
+        return '/' . trim(preg_replace('#/+#', '/', $path), '/');
+    }
+}
+
+if (!function_exists('locale_from_path')) {
+    /**
+     * Return the locale segment from a URL path, or null if the first segment
+     * isn't in the given $locales list.
+     */
+    function locale_from_path(string $path, array $locales): ?string
+    {
+        $segment = explode('/', ltrim($path, '/'))[0] ?? '';
+        return in_array($segment, $locales, true) ? $segment : null;
+    }
+}
+
+if (!function_exists('relative_path')) {
+    /**
+     * Convert an absolute filesystem path to a root-relative URL path.
+     * Strips $base and converts DIRECTORY_SEPARATOR to forward slashes.
+     */
+    function relative_path(string $absolutePath, string $base): string
+    {
+        return '/' . ltrim(str_replace([$base, DIRECTORY_SEPARATOR], ['', '/'], $absolutePath), '/');
+    }
+}
+
 if (!function_exists('route')) {
     /**
      * Return the URL path for a content slug.

@@ -29,7 +29,7 @@ class FileContentRepository implements ContentRepositoryInterface
 
     public function find(string $path, ?object $renderer = null, string $currentPath = ''): ?Content
     {
-        $path = '/' . trim($path, '/');
+        $path = $this->sanitizePath($path);
         $slug = trim($path, '/') ?: 'home';
 
         if ($path === '/') {
@@ -112,9 +112,14 @@ class FileContentRepository implements ContentRepositoryInterface
                 continue;
             }
 
-            $relative = str_replace($dir, '', $file->getPathname());
-            $slug     = trim(str_replace(['\\', '/index.php', '.php'], ['/', '', ''], $relative), '/');
-            $path     = '/' . $slug;
+            // Skip redirect shims — files that call header() with a Location
+            $source = file_get_contents($file->getPathname());
+            if ($source !== false && str_contains($source, 'header(') && str_contains($source, 'Location')) {
+                continue;
+            }
+
+            $relative = relative_path($file->getPathname(), $this->contentDir);
+            $slug     = trim(str_replace(['/index.php', '.php'], ['', ''], $relative), '/');
 
             $content = $this->find($path);
             if ($content !== null) {
@@ -125,43 +130,20 @@ class FileContentRepository implements ContentRepositoryInterface
         return $items;
     }
 
-    /**
-     * Extract only the $meta array from a PHP content file using static regex analysis.
-     * Safer than require+ob_start: body code (including $renderer calls) never executes.
-     */
     private function parseMeta(string $filePath): array
     {
-        $source = file_get_contents($filePath);
-        if ($source === false) {
-            return [];
-        }
-        // Terminate at ]; so nested arrays inside $meta don't truncate the match.
-        if (!preg_match('/\$meta\s*=\s*(\[[\s\S]*?\]);/s', $source, $matches)) {
-            return [];
-        }
-        try {
-            $meta = [];
-            // phpcs:ignore
-            eval('$meta = ' . $matches[1] . ';');
-            return is_array($meta) ? $meta : [];
-        } catch (\Throwable) {
-            return [];
-        }
+        return PhpFileParser::parseMeta($filePath);
     }
 
-    /**
-     * Returns true if $path starts with a non-default locale prefix (e.g. /es or /es/).
-     */
     private function hasLocalePrefix(string $path): bool
     {
-        foreach ($this->locales as $locale) {
-            if ($locale === $this->defaultLocale) {
-                continue;
-            }
-            if (str_starts_with($path, '/' . $locale . '/') || $path === '/' . $locale) {
-                return true;
-            }
-        }
-        return false;
+        $nonDefault = array_values(array_filter($this->locales, fn($l) => $l !== $this->defaultLocale));
+        return locale_from_path($path, $nonDefault) !== null;
+    }
+
+    private function sanitizePath(string $path): string
+    {
+        $path = str_replace(["\0", '..'], '', $path);
+        return '/' . trim(preg_replace('#/+#', '/', $path), '/');
     }
 }

@@ -30,7 +30,7 @@ class SitemapController implements HandlerInterface
         foreach ($pages as $page) {
             $loc      = $baseUrl . '/' . ltrim($page->slug, '/');
             $lastmod  = $page->get('date') ?? date('Y-m-d');
-            $priority = $page->slug === 'home' ? '1.0' : '0.8';
+            $priority = $page->get('sitemap_priority') ?? ($page->slug === 'home' ? '1.0' : '0.8');
 
             $xml .= "  <url>\n";
             $xml .= "    <loc>" . htmlspecialchars($loc, ENT_XML1) . "</loc>\n";

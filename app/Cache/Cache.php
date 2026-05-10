@@ -23,7 +23,7 @@ class Cache
             return null;
         }
 
-        $data = unserialize(file_get_contents($file));
+        $data = unserialize(file_get_contents($file), ['allowed_classes' => false]);
 
         if ($data['expires'] < time()) {
             unlink($file);

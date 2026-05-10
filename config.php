@@ -23,6 +23,8 @@ return [
     'default_locale' => 'en',
 
     'meta' => [
+        'author'      => 'Joe Hunter',
+        'author_url'  => 'https://joehunter.dev',
         'lang'        => 'en',
         'locale'      => 'en-US',
         'dir'         => 'ltr',

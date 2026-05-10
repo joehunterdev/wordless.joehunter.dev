@@ -15,13 +15,13 @@
 <h2>Características</h2>
 <ul>
     <?php foreach ([
-        'Enrutamiento por archivos',
-        'Contenido en PHP o Markdown',
-        'Plantillas PHP nativas',
-        'Caché basado en archivos',
-        'Sistema de plugins y eventos',
+        'Enrutamiento por archivos — sin configuración de rutas',
+        'Contenido en PHP puro — archivos que declaran <code>$meta</code> y HTML',
+        'Plantillas PHP nativas — sin motor de plantillas',
+        'Localización estructural — <code>en/</code> y <code>es/</code> como árboles de contenido',
+        'Caché basado en archivos con TTL configurable',
     ] as $feature): ?>
-        <li><?= e($feature) ?></li>
+        <li><?= $feature ?></li>
     <?php endforeach; ?>
 </ul>
 

@@ -36,16 +36,16 @@
 </p>
 
 <pre><code>&lt;?php $meta = [
-    'language' =&gt; 'es',
-    'locale'   =&gt; 'es-ES',
-    'dir'      =&gt; 'ltr',
+    'lang'   =&gt; 'es',
+    'locale' =&gt; 'es-ES',
+    'dir'    =&gt; 'ltr',
 ]; ?&gt;
 
 &lt;h1&gt;Español&lt;/h1&gt;
 </code></pre>
 
 <p>
-    Every page under <code>/es/</code> automatically inherits <code>language: 'es'</code>,
+    Every page under <code>/es/</code> automatically inherits <code>lang: 'es'</code>,
     but can override other metadata:
 </p>
 
@@ -85,7 +85,7 @@ $spanish = $repo-&gt;all('es');
 $englishBlog = $repo-&gt;all('en/blog');
 
 foreach ($spanish as $page) {
-    echo $page-&gt;get('language'); // 'es'
+    echo $page-&gt;get('lang'); // 'es'
 }
 </code></pre>
 
@@ -96,15 +96,15 @@ foreach ($spanish as $page) {
 </p>
 
 <pre><code>&lt;?php
-$currentLanguage = $content-&gt;get('language', 'en');
-$availableLanguages = ['en', 'es', 'fr'];
-
-foreach ($availableLanguages as $lang) {
-    $altPath = '/' . $lang . $content-&gt;slug;
-    $class = $lang === $currentLanguage ? 'active' : '';
-    echo "&lt;a href='{$altPath}' class='{$class}'&gt;{$lang}&lt;/a&gt;";
-}
+// Peers are resolved at runtime from content structure
+// and passed into $pageMeta['peers'] by ContentController
+foreach ($pageMeta['peers'] as $lang =&gt; $path):
+    $isActive = $lang === $pageMeta['lang'];
 ?&gt;
+    &lt;a href="&lt;?= e($path) ?&gt;" class="&lt;?= $isActive ? 'active' : '' ?&gt;"&gt;
+        &lt;?= e(strtoupper($lang)) ?&gt;
+    &lt;/a&gt;
+&lt;?php endforeach; ?&gt;
 </code></pre>
 
 <h2>SEO Considerations</h2>
@@ -124,8 +124,9 @@ foreach ($availableLanguages as $lang) {
     Help search engines understand language variations with <code>hreflang</code> links:
 </p>
 
-<pre><code>&lt;link rel="alternate" hreflang="es" href="/es/about" /&gt;
+<pre><code>&lt;link rel="alternate" hreflang="es" href="/es/acerca" /&gt;
 &lt;link rel="alternate" hreflang="en" href="/en/about" /&gt;
+&lt;link rel="alternate" hreflang="x-default" href="/en/about" /&gt;
 </code></pre>
 
 <h3>Sitemaps</h3>
@@ -141,7 +142,7 @@ foreach ($availableLanguages as $lang) {
 </p>
 
 <pre><code>mkdir content/fr
-echo '&lt;?php $meta = ["language" =&gt; "fr", "locale" =&gt; "fr-FR"]; ?&gt;' &gt; content/fr/index.php
+echo '&lt;?php $meta = ["lang" =&gt; "fr", "locale" =&gt; "fr-FR"]; ?&gt;' &gt; content/fr/index.php
 </code></pre>
 
 <p>
@@ -153,7 +154,7 @@ echo '&lt;?php $meta = ["language" =&gt; "fr", "locale" =&gt; "fr-FR"]; ?&gt;' &
 <ul>
     <li><strong>Use BCP 47 locale codes:</strong> <code>en-US</code>, <code>es-ES</code>, <code>fr-FR</code></li>
     <li><strong>Organize by language first:</strong> Makes permissions and deployment easier</li>
-    <li><strong>Keep slugs consistent:</strong> <code>/en/about</code> and <code>/es/about</code> use the same slug</li>
+    <li><strong>Translate slugs naturally:</strong> <code>/en/about</code> pairs with <code>/es/acerca</code> — use the <code>peers</code> key in <code>$meta</code> to declare the link explicitly</li>
     <li><strong>Translate all navigation:</strong> Link switchers and menus for every language</li>
     <li><strong>Maintain parity:</strong> Keep content across languages reasonably synchronized</li>
 </ul>
