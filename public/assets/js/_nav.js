@@ -4,9 +4,9 @@
 
 // Mobile menu toggle function (called from HTML onclick)
 function toggleMobileMenu() {
-    const nav = document.querySelector('.site-nav');
-    if (nav) {
-        nav.classList.toggle('mobile-open');
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+        navbar.classList.toggle('show');
     }
 }
 

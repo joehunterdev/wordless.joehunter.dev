@@ -7,6 +7,7 @@ $currentPath = $currentPath ?? '';
 $title       = $pageTitle !== '' ? e($pageTitle) . ' &mdash; ' : '';
 $description = e($pageMeta['description'] ?? '');
 $keywords    = e(implode(', ', (array) ($pageMeta['keywords'] ?? [])));
+$author      = e($pageMeta['author'] ?? cfg('meta.author', 'Joe Hunter'));
 $locale      = e($pageMeta['locale'] ?? 'en-US');
 $lang        = $pageMeta['lang'] ?? 'en';
 $peers       = $pageMeta['peers'] ?? [];
@@ -24,6 +25,10 @@ $canonical = $siteUrl !== '' ? $siteUrl . $currentPath : '';
     <?php if ($keywords): ?>
     <meta name="keywords" content="<?= $keywords ?>">
     <?php endif; ?>
+    <?php if ($author): ?>
+    <meta name="author" content="<?= $author ?>">
+    <meta property="article:author" content="<?= $author ?>">
+    <?php endif; ?>
     <meta property="og:locale" content="<?= $locale ?>">
     <meta property="og:title" content="<?= $title ?>Wordless">
     <?php if ($description): ?>
@@ -32,6 +37,8 @@ $canonical = $siteUrl !== '' ? $siteUrl . $currentPath : '';
     <?php if ($canonical): ?>
     <link rel="canonical" href="<?= e($canonical) ?>">
     <?php endif; ?>
+    <link rel="icon" href="<?= img('logo.png') ?>" type="image/png">
+    <link rel="apple-touch-icon" href="<?= img('logo.png') ?>">
     <?php if ($canonical && !empty($peers)): ?>
     <link rel="alternate" hreflang="<?= e($lang) ?>" href="<?= e($canonical) ?>">
     <?php foreach ($peers as $peerLang => $peerPath): ?>
