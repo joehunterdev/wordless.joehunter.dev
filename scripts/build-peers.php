@@ -3,13 +3,15 @@
 declare(strict_types=1);
 
 /**
- * Scans all locale content directories and writes storage/peers.php.
+ * DEPRECATED — no longer needed.
  *
- * For each canonical path in each locale, attempts to find a matching file
- * in every other locale by the same relative slug. Writes null where no file
- * is found — override those entries with $meta['peers'] in the content file.
+ * Peer resolution is now computed at runtime by PeerMap based on matching
+ * relative slugs across locale directories. No pre-build step required.
  *
- * Usage: php scripts/build-peers.php
+ * Override peers for a specific page via $meta['peers'] in the content file:
+ *   $meta = ['peers' => ['es' => '/es/acerca']];
+ *
+ * This file is kept for reference only and can be deleted.
  */
 
 $base = dirname(__DIR__);

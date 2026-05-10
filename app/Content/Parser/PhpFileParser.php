@@ -58,4 +58,27 @@ class PhpFileParser implements ParserInterface
     {
         return ucwords(str_replace(['-', '_'], ' ', basename($slug) ?: 'Home'));
     }
+
+    /**
+     * Extract only the $meta array from a PHP content file using static regex analysis.
+     * Safer than require+ob_start: body code never executes.
+     */
+    public static function parseMeta(string $filePath): array
+    {
+        $source = file_get_contents($filePath);
+        if ($source === false) {
+            return [];
+        }
+        if (!preg_match('/\$meta\s*=\s*(\[[\s\S]*?\]);/s', $source, $matches)) {
+            return [];
+        }
+        try {
+            $meta = [];
+            // phpcs:ignore
+            eval('$meta = ' . $matches[1] . ';');
+            return is_array($meta) ? $meta : [];
+        } catch (\Throwable) {
+            return [];
+        }
+    }
 }

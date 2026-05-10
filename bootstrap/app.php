@@ -50,7 +50,11 @@ $container->singleton(ContentRepositoryInterface::class, fn() =>
 );
 
 $container->singleton(PeerMap::class, fn() =>
-    PeerMap::load($config['base_path'] . '/storage/peers.php')
+    new PeerMap(
+        $config['content_dir'],
+        $config['locales']        ?? ['en'],
+        $config['default_locale'] ?? 'en'
+    )
 );
 
 $container->singleton(EventDispatcher::class, fn() =>

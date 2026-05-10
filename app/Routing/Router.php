@@ -9,7 +9,6 @@ use Wordless\Http\HandlerInterface;
 use Wordless\Http\Request;
 use Wordless\Http\Response;
 use Wordless\Http\Controllers\ContentController;
-use Wordless\Http\Controllers\NotFoundController;
 
 class Router
 {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Wordless\Templating;
 
+use Wordless\Content\Parser\PhpFileParser;
+
 class Renderer
 {
     private readonly string $templateDir;
@@ -88,17 +90,8 @@ class Renderer
         $locales       = $config->get('locales', ['en']);
         $defaultLocale = $config->get('default_locale', 'en');
 
-        // Detect the active locale from the request path
-        $activeLocale = $defaultLocale;
-        foreach ($locales as $locale) {
-            if ($locale !== $defaultLocale && (
-                str_starts_with($currentPath, '/' . $locale . '/') ||
-                $currentPath === '/' . $locale
-            )) {
-                $activeLocale = $locale;
-                break;
-            }
-        }
+        $nonDefault   = array_values(array_filter($locales, fn($l) => $l !== $defaultLocale));
+        $activeLocale = locale_from_path($currentPath, $nonDefault) ?? $defaultLocale;
 
         $localeDir = $contentDir . DIRECTORY_SEPARATOR . $activeLocale;
         if (!is_dir($localeDir)) {
@@ -115,18 +108,14 @@ class Renderer
                 continue;
             }
 
-            $meta     = $this->extractMeta($file->getPathname());
+            $meta     = PhpFileParser::parseMeta($file->getPathname());
             $menuMeta = $meta['menu'] ?? null;
 
             if (!is_array($menuMeta)) {
                 continue;
             }
 
-            $relative = str_replace(
-                '\\',
-                '/',
-                ltrim(str_replace($localeDir, '', $file->getPathname()), DIRECTORY_SEPARATOR)
-            );
+            $relative = ltrim(relative_path($file->getPathname(), $localeDir), '/');
 
             if ($relative === 'index.php') {
                 $slug = '';
@@ -135,7 +124,7 @@ class Renderer
             }
 
             if ($slug === '') {
-                $path = '/' . $activeLocale;
+                $path = ($activeLocale === $defaultLocale) ? '/' : '/' . $activeLocale;
             } elseif ($activeLocale === $defaultLocale) {
                 $path = '/' . $slug;
             } else {
@@ -153,28 +142,6 @@ class Renderer
         usort($menuItems, fn($a, $b) => $a['order'] <=> $b['order']);
 
         return $this->buildMenuHierarchy($menuItems);
-    }
-
-    private function extractMeta(string $filePath): array
-    {
-        $source = file_get_contents($filePath);
-        if ($source === false) {
-            return [];
-        }
-
-        // Match the first $meta = [...]; — terminate at ]; so nested arrays don't confuse the match.
-        if (!preg_match('/\$meta\s*=\s*(\[[\s\S]*?\]);/s', $source, $matches)) {
-            return [];
-        }
-
-        try {
-            $meta = [];
-            // phpcs:ignore
-            eval('$meta = ' . $matches[1] . ';');
-            return is_array($meta) ? $meta : [];
-        } catch (\Throwable) {
-            return [];
-        }
     }
 
     private function buildMenuHierarchy(array $items): array
