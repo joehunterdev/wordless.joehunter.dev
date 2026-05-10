@@ -24,9 +24,11 @@
     </thead>
     <tbody>
         <tr><td><code>/</code></td><td><code>content/index.php</code></td></tr>
-        <tr><td><code>/about</code></td><td><code>content/about.php</code></td></tr>
-        <tr><td><code>/blog/hello-world</code></td><td><code>content/blog/hello-world.php</code></td></tr>
-        <tr><td><code>/features/file-based-routing</code></td><td><code>content/features/file-based-routing.php</code></td></tr>
+        <tr><td><code>/en</code></td><td><code>content/en/index.php</code></td></tr>
+        <tr><td><code>/en/about</code></td><td><code>content/en/about.php</code></td></tr>
+        <tr><td><code>/en/features</code></td><td><code>content/en/features/index.php</code></td></tr>
+        <tr><td><code>/en/features/file-based-routing</code></td><td><code>content/en/features/file-based-routing.php</code></td></tr>
+        <tr><td><code>/es/acerca</code></td><td><code>content/es/acerca.php</code></td></tr>
     </tbody>
 </table>
 

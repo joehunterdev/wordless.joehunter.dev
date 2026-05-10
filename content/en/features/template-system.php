@@ -62,21 +62,25 @@
 <h3>Content Pages</h3>
 
 <p>
-    Individual page templates render specific content:
+    Content files under <code>content/</code> declare <code>$meta</code> and output HTML directly.
+    The layout is applied by <code>templates/page.php</code>:
 </p>
 
-<pre><code>&lt;?php
-$layout    = 'base';              // Which layout to use
-$pageTitle = $content-&gt;title;     // Pass data to layout
-?&gt;
+<pre><code>&lt;!-- content/en/about.php --&gt;
+&lt;?php $meta = [
+    'title'       =&gt; 'About',
+    'description' =&gt; 'About Wordless CMS.',
+    'keywords'    =&gt; ['wordless', 'about'],
+]; ?&gt;
 
-&lt;article&gt;
-    &lt;h1&gt;&lt;?= e($content-&gt;title) ?&gt;&lt;/h1&gt;
-    &lt;div class="body"&gt;
-        &lt;?= $content-&gt;body ?&gt;
-    &lt;/div&gt;
-&lt;/article&gt;
+&lt;h1&gt;About Wordless&lt;/h1&gt;
+&lt;p&gt;Content goes here — plain PHP and HTML.&lt;/p&gt;
 </code></pre>
+
+<p>
+    The renderer wraps this in <code>templates/page.php</code>, which sets the layout and
+    passes <code>$content->body</code> into <code>templates/layouts/base.php</code>.
+</p>
 
 <h2>Output Escaping</h2>
 

@@ -1,8 +1,9 @@
 <?php $meta = [
-    'title'    => 'Acerca de',
-    'peers'    => ['en' => '/about'],
-    'menu'     => ['order' => 2, 'title' => 'Acerca de'],
-    'keywords' => ['wordless', 'acerca', 'filosofía', 'arquitectura', 'cms'],
+    'title'       => 'Acerca de',
+    'description' => 'Wordless es un CMS mínimo de archivos planos, sin dependencias, construido con PHP moderno.',
+    'peers'       => ['en' => '/en/about'],
+    'menu'        => ['order' => 2, 'title' => 'Acerca de'],
+    'keywords'    => ['wordless', 'acerca', 'filosofía', 'arquitectura', 'cms'],
 ]; ?>
 
 <h1>Acerca de Wordless</h1>
