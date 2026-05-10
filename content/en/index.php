@@ -1,10 +1,13 @@
 <?php $meta = [
-    'title'       => 'English',
-    'language'    => 'en',
-    'locale'      => 'en-US',
-    'dir'         => 'ltr',
-    'keywords'    => ['wordless', 'cms', 'php', 'english'],
+    'title'    => 'English',
+    'lang'     => 'en',
+    'locale'   => 'en-US',
+    'dir'      => 'ltr',
+    'peers'    => ['es' => '/es'],
+    'keywords' => ['wordless', 'cms', 'php', 'english'],
 ]; ?>
+
+<?= $renderer->partial('nav', ['currentPath' => $currentPath ?? '', 'pageMeta' => $meta]) ?>
 
 <h1>Welcome</h1>
 

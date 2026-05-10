@@ -19,17 +19,15 @@ use Wordless\Content\Content;
  */
 class PhpFileParser implements ParserInterface
 {
-    public function parseFile(string $filePath, string $slug, array $inheritedMeta = []): Content
+    public function parseFile(string $filePath, string $slug, array $inheritedMeta = [], ?object $renderer = null, string $currentPath = ''): Content
     {
         if (!file_exists($filePath)) {
             throw new \RuntimeException("Content file not found: {$filePath}");
         }
 
-        // Isolate scope — only $meta leaks out intentionally
         $meta = [];
-        $body = $this->capture($filePath, $meta);
+        $body = $this->capture($filePath, $meta, $renderer, $currentPath);
 
-        // Page meta wins over inherited meta
         $meta  = array_merge($inheritedMeta, $meta);
         $title = $meta['title'] ?? $this->titleFromSlug($slug);
 
@@ -41,11 +39,9 @@ class PhpFileParser implements ParserInterface
         );
     }
 
-    private function capture(string $filePath, array &$meta): string
+    private function capture(string $filePath, array &$meta, ?object $renderer, string $currentPath): string
     {
-        // Wrap in a static closure to contain scope.
-        // The file may define $meta — we extract it via extract + compact trick.
-        $loader = static function (string $_file): array {
+        $loader = static function (string $_file, ?object $renderer, string $currentPath): array {
             $meta = [];
             ob_start();
             require $_file;
@@ -53,7 +49,7 @@ class PhpFileParser implements ParserInterface
             return [$body, $meta];
         };
 
-        [$body, $meta] = $loader($filePath);
+        [$body, $meta] = $loader($filePath, $renderer, $currentPath);
 
         return $body;
     }

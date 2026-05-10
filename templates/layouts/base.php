@@ -3,7 +3,7 @@
 /** @var string|null  $pageTitle Page-level title */
 /** @var array        $pageMeta  Full merged meta array */
 /** @var \Wordless\Templating\Renderer $renderer */
-$pageMeta = $pageMeta ?? [];
+$pageMeta = $pageMeta ?? $content->meta ?? [];
 $lang     = htmlspecialchars($pageMeta['lang'] ?? 'en');
 $dir      = htmlspecialchars($pageMeta['dir'] ?? 'ltr');
 ?>
@@ -12,7 +12,7 @@ $dir      = htmlspecialchars($pageMeta['dir'] ?? 'ltr');
 <?= $renderer->partial('head', ['pageTitle' => $pageTitle ?? '', 'pageMeta' => $pageMeta, 'currentPath' => $currentPath ?? '']) ?>
 <body>
     <div class="site-wrapper">
-        <?= $renderer->partial('nav', ['currentPath' => $currentPath ?? '']) ?>
+        <?= $renderer->partial('nav', ['currentPath' => $currentPath ?? '', 'pageMeta' => $pageMeta]) ?>
         <main>
             <?= $slot ?? '' ?>
         </main>

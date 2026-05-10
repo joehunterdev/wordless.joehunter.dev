@@ -13,10 +13,6 @@ class Renderer
         $this->templateDir = rtrim($templateDir, '/\\');
     }
 
-    /**
-     * Render a template file with the given data.
-     * Templates live in /templates/{name}.php
-     */
     public function render(string $template, array $data = []): string
     {
         $templateFile = $this->templateDir . '/' . $template . '.php';
@@ -25,13 +21,10 @@ class Renderer
             throw new \RuntimeException("Template not found: {$template}");
         }
 
-        // Always inject $renderer so partials are callable from any template
         $data['renderer'] = $this;
 
-        // Extract data into local scope, then buffer output
         extract($data, EXTR_SKIP);
 
-        // $layout / $pageTitle may be set by the template itself
         $layout    = null;
         $pageTitle = '';
 
@@ -43,120 +36,126 @@ class Renderer
             return $this->render('layouts/' . $layout, [
                 'slot'      => $slot,
                 'pageTitle' => $pageTitle,
-                'renderer'  => $this, // Ensure renderer is available in layout too
+                'renderer'  => $this,
             ] + $data);
         }
 
         return $slot;
     }
 
-    /**
-     * Render a partial from /templates/partials/{name}.php
-     */
     public function partial(string $name, array $data = []): string
     {
         return $this->render('partials/' . $name, $data);
     }
 
-    /**
-     * Render a template wrapped in a layout.
-     * The layout receives $content (the inner rendered HTML).
-     */
     public function renderWithLayout(string $layout, string $template, array $data = []): string
     {
         $inner = $this->render($template, $data);
         return $this->render('layouts/' . $layout, array_merge($data, ['content' => $inner]));
     }
 
-    /**
-     * Render the main navigation menu.
-     * Simple, direct approach - reads content metadata but keeps rendering straightforward.
-     */
     public function renderMenu(string $currentPath = ''): string
     {
-        // We need access to the content repository to read menu metadata
-        // For now, let's build this more dynamically
-        $menuItems = $this->getMenuItems();
-        
-        // Debug: show what we got
-        $debug = "<!-- DEBUG MENU ITEMS: " . json_encode($menuItems) . " -->";
-        
-        $nav = '<nav class="site-nav">';
-        $nav .= '<ul class="navbar">';
-        
+        $menuItems = $this->getMenuItems($currentPath);
+
+        $nav = '<nav class="site-nav"><ul class="navbar">';
+
         foreach ($menuItems as $item) {
-            $activeClass = ($currentPath === $item['path']) ? ' class="active"' : '';
-            
+            $activeAttr = ($currentPath === $item['path']) ? ' class="active"' : '';
+
             if (!empty($item['children'])) {
-                // Dropdown menu
                 $nav .= '<li class="dropdown">';
-                $nav .= '<a href="' . htmlspecialchars($item['path']) . '" class="dropbtn">' . htmlspecialchars($item['title']) . ' ▼</a>';
+                $nav .= '<a href="' . e($item['path']) . '" class="dropbtn">' . e($item['title']) . ' &#9660;</a>';
                 $nav .= '<div class="dropdown-content">';
                 foreach ($item['children'] as $child) {
-                    $nav .= '<a href="' . htmlspecialchars($child['path']) . '">' . htmlspecialchars($child['title']) . '</a>';
+                    $nav .= '<a href="' . e($child['path']) . '">' . e($child['title']) . '</a>';
                 }
-                $nav .= '</div>';
-                $nav .= '</li>';
+                $nav .= '</div></li>';
             } else {
-                // Regular menu item
-                $nav .= '<li><a href="' . htmlspecialchars($item['path']) . '"' . $activeClass . '>' . htmlspecialchars($item['title']) . '</a></li>';
+                $nav .= '<li><a href="' . e($item['path']) . '"' . $activeAttr . '>' . e($item['title']) . '</a></li>';
             }
         }
-        
-        $nav .= '</ul>';
-        $nav .= '</nav>';
-        
-        return $debug . $nav;
+
+        $nav .= '</ul></nav>';
+
+        return $nav;
     }
-    
-    /**
-     * Get menu items from content metadata.
-     * Simplified version that reads from filesystem but keeps logic minimal.
-     */
-    private function getMenuItems(): array
+
+    private function getMenuItems(string $currentPath): array
     {
-        $contentDir = dirname($this->templateDir) . '/content';
+        $contentDir    = dirname($this->templateDir) . '/content';
+        $config        = \Wordless\Config\Config::getInstance();
+        $locales       = $config->get('locales', ['en']);
+        $defaultLocale = $config->get('default_locale', 'en');
+
+        // Detect the active locale from the request path
+        $activeLocale = $defaultLocale;
+        foreach ($locales as $locale) {
+            if ($locale !== $defaultLocale && (
+                str_starts_with($currentPath, '/' . $locale . '/') ||
+                $currentPath === '/' . $locale
+            )) {
+                $activeLocale = $locale;
+                break;
+            }
+        }
+
+        $localeDir = $contentDir . DIRECTORY_SEPARATOR . $activeLocale;
+        if (!is_dir($localeDir)) {
+            return [];
+        }
+
         $menuItems = [];
-        
-        // Scan for content files with menu metadata
-        $iterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($contentDir, \FilesystemIterator::SKIP_DOTS)
+        $iterator  = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($localeDir, \FilesystemIterator::SKIP_DOTS)
         );
-        
+
         foreach ($iterator as $file) {
             if ($file->getExtension() !== 'php') {
                 continue;
             }
-            
-            // Extract metadata
-            $meta = $this->extractMeta($file->getPathname());
+
+            $meta     = $this->extractMeta($file->getPathname());
             $menuMeta = $meta['menu'] ?? null;
-            
-            if (is_array($menuMeta)) {
-                $relativePath = str_replace($contentDir, '', $file->getPathname());
-                $path = '/' . trim(str_replace(['\\', '/index.php', '.php'], ['/', '', ''], $relativePath), '/');
-                if ($path === '/') $path = '/';
-                
-                $menuItems[] = [
-                    'title' => $menuMeta['title'] ?? $meta['title'] ?? 'Untitled',
-                    'path' => $path,
-                    'order' => $menuMeta['order'] ?? 100,
-                    'parent' => $menuMeta['parent'] ?? null,
-                ];
+
+            if (!is_array($menuMeta)) {
+                continue;
             }
+
+            $relative = str_replace(
+                '\\',
+                '/',
+                ltrim(str_replace($localeDir, '', $file->getPathname()), DIRECTORY_SEPARATOR)
+            );
+
+            if ($relative === 'index.php') {
+                $slug = '';
+            } else {
+                $slug = trim(str_replace(['/index.php', '.php'], ['', ''], '/' . $relative), '/');
+            }
+
+            if ($slug === '') {
+                $path = '/' . $activeLocale;
+            } elseif ($activeLocale === $defaultLocale) {
+                $path = '/' . $slug;
+            } else {
+                $path = '/' . $activeLocale . '/' . $slug;
+            }
+
+            $menuItems[] = [
+                'title'    => $menuMeta['title'] ?? $meta['title'] ?? 'Untitled',
+                'path'     => $path,
+                'order'    => $menuMeta['order'] ?? 100,
+                'parent'   => $menuMeta['parent'] ?? null,
+                'children' => [],
+            ];
         }
-        
-        // Sort by order and build hierarchy
+
         usort($menuItems, fn($a, $b) => $a['order'] <=> $b['order']);
-        
+
         return $this->buildMenuHierarchy($menuItems);
     }
-    
-    /**
-     * Extract only the $meta array from a PHP content file without executing
-     * side-effects like header() or exit. Parses the raw source and evals
-     * just the first $meta = [...]; assignment.
-     */
+
     private function extractMeta(string $filePath): array
     {
         $source = file_get_contents($filePath);
@@ -164,8 +163,8 @@ class Renderer
             return [];
         }
 
-        // Match the first $meta = [...]; or $meta = array(...); block
-        if (!preg_match('/\$meta\s*=\s*(\[[\s\S]*?\]|array\s*\([\s\S]*?\))\s*;/m', $source, $matches)) {
+        // Match the first $meta = [...]; — terminate at ]; so nested arrays don't confuse the match.
+        if (!preg_match('/\$meta\s*=\s*(\[[\s\S]*?\]);/s', $source, $matches)) {
             return [];
         }
 
@@ -178,60 +177,47 @@ class Renderer
             return [];
         }
     }
-    
-    /**
-     * Build menu hierarchy from flat array.
-     */
+
     private function buildMenuHierarchy(array $items): array
     {
-        $hierarchy = [];
-        $itemsByPath = [];
-        
-        // Debug: log what we're working with
-        error_log("Building menu hierarchy from: " . json_encode($items));
-        
-        // Index by path
-        foreach ($items as $item) {
-            $itemsByPath[$item['path']] = $item + ['children' => []];
-        }
-        
-        error_log("Items by path: " . json_encode(array_keys($itemsByPath)));
-        
-        // Build hierarchy
-        foreach ($itemsByPath as $path => $item) {
-            if ($item['parent']) {
-                error_log("Looking for parent '{$item['parent']}' for item '{$path}'");
-                if (isset($itemsByPath[$item['parent']])) {
-                    $itemsByPath[$item['parent']]['children'][] = $item;
-                    error_log("Added '{$path}' as child of '{$item['parent']}'");
-                } else {
-                    $hierarchy[] = $item; // Orphaned child becomes top-level
-                    error_log("Orphaned child: '{$path}' (parent '{$item['parent']}' not found)");
-                }
-            } else {
-                $hierarchy[] = $item;
-                error_log("Top-level item: '{$path}'");
-            }
-        }
-        
-        // Update hierarchy with items that now have children
-        $hierarchy = [];
-        foreach ($itemsByPath as $path => $item) {
-            if (!$item['parent']) {
-                $hierarchy[] = $item;
-            }
-        }
-        
-        error_log("Final hierarchy: " . json_encode($hierarchy));
-        
-        return $hierarchy;
-    }
+        // Sort shallowest paths first so parents are indexed before children
+        usort($items, fn($a, $b) => substr_count($a['path'], '/') <=> substr_count($b['path'], '/'));
 
-    /**
-     * Check if feature content exists.
-     */
-    private function hasFeatureContent(): bool
-    {
-        return is_dir(dirname($this->templateDir) . '/content/en/features');
+        $config      = \Wordless\Config\Config::getInstance();
+        $localeRoots = array_map(fn($l) => '/' . $l, $config->get('locales', ['en']));
+
+        $byPath   = [];
+        $children = [];
+
+        foreach ($items as $item) {
+            $byPath[$item['path']] = $item;
+        }
+
+        foreach ($byPath as $path => $item) {
+            // Walk up path segments to find the nearest ancestor menu item.
+            // Skip locale root paths (e.g. /es) — they provide locale context,
+            // not section structure, so pages like /es/acerca stay top-level.
+            $parts = explode('/', trim($path, '/'));
+            array_pop($parts);
+
+            while (!empty($parts)) {
+                $ancestor = '/' . implode('/', $parts);
+                if (isset($byPath[$ancestor]) && !in_array($ancestor, $localeRoots, true)) {
+                    $byPath[$ancestor]['children'][] = $item;
+                    $children[$path] = true;
+                    break;
+                }
+                array_pop($parts);
+            }
+        }
+
+        $hierarchy = [];
+        foreach ($byPath as $path => $item) {
+            if (!isset($children[$path])) {
+                $hierarchy[] = $item;
+            }
+        }
+
+        return $hierarchy;
     }
 }

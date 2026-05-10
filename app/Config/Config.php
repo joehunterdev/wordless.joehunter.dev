@@ -58,7 +58,7 @@ class Config
             'template_dir' => $base . '/templates',
             'debug'        => false,
             'cache_ttl'    => 3600,
-            'locales'      => ['en'],
+            'locales'        => ['en'],
             'default_locale' => 'en',
         ];
     }

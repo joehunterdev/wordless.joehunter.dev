@@ -15,9 +15,12 @@
  *   'cache_ttl'    => 3600
  */
 return [
-    'debug'         => true,
-    'cache_enabled' => false,  // Disable caching during development
-    'version' => "1.2.3",  
+    'debug'          => true,
+    'cache_enabled'  => false,
+    'version'        => '1.2.3',
+
+    'locales'        => ['en', 'es'],
+    'default_locale' => 'en',
 
     'meta' => [
         'lang'        => 'en',

@@ -1,6 +1,7 @@
 <?php $meta = [
-    'title' => 'Acerca de',
-    'menu'  => ['order' => 2, 'title' => 'Acerca de'],
+    'title'    => 'Acerca de',
+    'peers'    => ['en' => '/about'],
+    'menu'     => ['order' => 2, 'title' => 'Acerca de'],
     'keywords' => ['wordless', 'acerca', 'filosofía', 'arquitectura', 'cms'],
 ]; ?>
 
@@ -12,7 +13,8 @@
 <ul>
     <?php foreach ([
         'Sin base de datos — el contenido vive en archivos PHP',
-        'Sin Composer — cero dependencias de terceros',
+        'Sin Composer — cero dependencias de 
+        terceros',
         'Sin magia — código limpio, legible y testeable',
     ] as $point): ?>
         <li><?= e($point) ?></li>

@@ -1,11 +1,14 @@
 <?php $meta = [
     'title'    => 'Inicio',
-    'language' => 'es',
+    'lang'     => 'es',
     'locale'   => 'es-ES',
     'dir'      => 'ltr',
+    'peers'    => ['en' => '/en'],
     'menu'     => ['order' => 1, 'title' => 'Inicio'],
     'keywords' => ['wordless', 'cms', 'php', 'español', 'simple'],
 ]; ?>
+
+<?= $renderer->partial('nav', ['currentPath' => $currentPath ?? '', 'pageMeta' => $meta]) ?>
 
 <h1>Bienvenido a Wordless</h1>
 

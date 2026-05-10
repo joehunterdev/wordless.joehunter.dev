@@ -11,32 +11,48 @@ class FileContentRepository implements ContentRepositoryInterface
     private readonly string $contentDir;
     private readonly PhpFileParser $phpParser;
     private readonly array $defaultMeta;
+    private readonly array $locales;
+    private readonly string $defaultLocale;
 
-    public function __construct(string $contentDir, array $defaultMeta = [])
-    {
-        $this->contentDir  = rtrim($contentDir, '/\\');
-        $this->phpParser   = new PhpFileParser();
-        $this->defaultMeta = $defaultMeta;
+    public function __construct(
+        string $contentDir,
+        array  $defaultMeta    = [],
+        array  $locales        = ['en'],
+        string $defaultLocale  = 'en'
+    ) {
+        $this->contentDir    = rtrim($contentDir, '/\\');
+        $this->phpParser     = new PhpFileParser();
+        $this->defaultMeta   = $defaultMeta;
+        $this->locales       = $locales;
+        $this->defaultLocale = $defaultLocale;
     }
 
-    public function find(string $path): ?Content
+    public function find(string $path, ?object $renderer = null, string $currentPath = ''): ?Content
     {
         $path = '/' . trim($path, '/');
         $slug = trim($path, '/') ?: 'home';
         $root = $this->contentDir;
 
-        $candidates = $path === '/'
-            ? [$root . '/index.php']
-            : [
+        if ($path === '/') {
+            $candidates = [$root . '/index.php'];
+        } else {
+            $candidates = [
                 $root . $path . '.php',
                 $root . $path . '/index.php',
             ];
 
+            // For paths with no non-default locale prefix, also try the default locale dir.
+            // This makes content/en/about.php accessible at /about.
+            if (!$this->hasLocalePrefix($path)) {
+                $candidates[] = $root . '/' . $this->defaultLocale . $path . '.php';
+                $candidates[] = $root . '/' . $this->defaultLocale . $path . '/index.php';
+            }
+        }
+
         foreach ($candidates as $file) {
             if (file_exists($file)) {
-                // config defaults → ancestor chain → page (innermost wins)
                 $inherited = array_merge($this->defaultMeta, $this->inheritedMeta($file));
-                return $this->phpParser->parseFile($file, $slug, $inherited);
+                return $this->phpParser->parseFile($file, $slug, $inherited, $renderer, $currentPath);
             }
         }
 
@@ -54,7 +70,6 @@ class FileContentRepository implements ContentRepositoryInterface
         $dir         = dirname(realpath($filePath));
         $ancestors   = [];
 
-        // Climb toward the root, collect index.php paths (skip own directory)
         while ($dir && $dir !== $contentRoot) {
             $index = $dir . DIRECTORY_SEPARATOR . 'index.php';
             if (file_exists($index) && $index !== realpath($filePath)) {
@@ -62,7 +77,7 @@ class FileContentRepository implements ContentRepositoryInterface
             }
             $parent = dirname($dir);
             if ($parent === $dir) {
-                break; // filesystem root guard
+                break;
             }
             $dir = $parent;
         }
@@ -71,20 +86,11 @@ class FileContentRepository implements ContentRepositoryInterface
             return [];
         }
 
-        // Reverse so outermost ancestor is merged first (innermost wins)
         $ancestors = array_reverse($ancestors);
 
         $merged = [];
         foreach ($ancestors as $indexFile) {
-            // Extract only $meta — discard body output entirely
-            $data = (static function (string $f): array {
-                $meta = [];
-                ob_start();
-                require $f;
-                ob_end_clean();
-                return is_array($meta) ? $meta : [];
-            })($indexFile);
-            // Keywords merge as array union; all other keys: innermost wins
+            $data = $this->parseMeta($indexFile);
             if (isset($data['keywords']) && isset($merged['keywords'])) {
                 $data['keywords'] = array_values(array_unique(array_merge($merged['keywords'], (array) $data['keywords'])));
             }
@@ -122,5 +128,45 @@ class FileContentRepository implements ContentRepositoryInterface
         }
 
         return $items;
+    }
+
+    /**
+     * Extract only the $meta array from a PHP content file using static regex analysis.
+     * Safer than require+ob_start: body code (including $renderer calls) never executes.
+     */
+    private function parseMeta(string $filePath): array
+    {
+        $source = file_get_contents($filePath);
+        if ($source === false) {
+            return [];
+        }
+        // Terminate at ]; so nested arrays inside $meta don't truncate the match.
+        if (!preg_match('/\$meta\s*=\s*(\[[\s\S]*?\]);/s', $source, $matches)) {
+            return [];
+        }
+        try {
+            $meta = [];
+            // phpcs:ignore
+            eval('$meta = ' . $matches[1] . ';');
+            return is_array($meta) ? $meta : [];
+        } catch (\Throwable) {
+            return [];
+        }
+    }
+
+    /**
+     * Returns true if $path starts with a non-default locale prefix (e.g. /es or /es/).
+     */
+    private function hasLocalePrefix(string $path): bool
+    {
+        foreach ($this->locales as $locale) {
+            if ($locale === $this->defaultLocale) {
+                continue;
+            }
+            if (str_starts_with($path, '/' . $locale . '/') || $path === '/' . $locale) {
+                return true;
+            }
+        }
+        return false;
     }
 }

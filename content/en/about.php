@@ -1,6 +1,7 @@
 <?php $meta = [
-    'title' => 'About',
-    'menu'  => ['order' => 2, 'title' => 'About'],
+    'title'    => 'About',
+    'peers'    => ['es' => '/es/acerca'],
+    'menu'     => ['order' => 2, 'title' => 'About'],
     'keywords' => ['wordless', 'about', 'philosophy', 'architecture', 'cms'],
 ]; ?>
 
