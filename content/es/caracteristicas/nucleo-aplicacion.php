@@ -1,7 +1,7 @@
 <?php $meta = [
     'title'       => 'Núcleo de Aplicación',
     'description' => 'Comprendiendo el núcleo de la aplicación Wordless: manejo de solicitudes, arranque y el ciclo de vida central.',
-    'menu'        => ['parent' => '/es/caracteristicas', 'order' => 1],
+    'menu'        => ['order' => 1],
     'keywords'    => ['núcleo', 'aplicación', 'bootstrap', 'solicitud', 'ciclo'],
 ]; ?>
 

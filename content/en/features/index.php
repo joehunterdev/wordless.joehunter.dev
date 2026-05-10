@@ -1,6 +1,7 @@
 <?php $meta = [
     'title'       => 'Architecture & Features',
     'description' => 'Explore Wordless CMS architecture: file-based routing, content repository, templating, and more.',
+    'peers'       => ['es' => '/es/caracteristicas'],
     'menu'        => ['order' => 3, 'title' => 'Features'],
     'keywords'    => ['architecture', 'features', 'design', 'patterns', 'components'],
 ]; ?>

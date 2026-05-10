@@ -1,7 +1,7 @@
 <?php $meta = [
     'title'       => 'Application Kernel',
     'description' => 'Understanding the Wordless application kernel: request handling, bootstrapping, and the core request lifecycle.',
-    'menu'        => ['parent' => '/en/features', 'order' => 1],
+    'menu'        => ['order' => 1],
     'keywords'    => ['kernel', 'application', 'bootstrap', 'request', 'lifecycle'],
 ]; ?>
 

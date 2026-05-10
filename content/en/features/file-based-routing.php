@@ -1,7 +1,7 @@
 <?php $meta = [
     'title'       => 'File-Based Routing',
     'description' => 'How Wordless maps URLs directly to the filesystem. No configuration, no route definitions — just pure directory conventions.',
-    'menu'        => ['parent' => '/en/features', 'order' => 2],
+    'menu'        => ['order' => 2],
     'keywords'    => ['routing', 'urls', 'filesystem', 'conventions', 'paths'],
 ]; ?>
 

@@ -1,7 +1,7 @@
 <?php $meta = [
     'title'       => 'Repositorio de Contenido',
     'description' => 'El patrón Repositorio de Contenido en Wordless: carga estructurada, consultas y herencia de metadatos.',
-    'menu'        => ['parent' => '/es/caracteristicas', 'order' => 3],
+    'menu'        => ['order' => 3],
     'keywords'    => ['repositorio', 'contenido', 'cargador', 'metadatos', 'patrón'],
 ]; ?>
 

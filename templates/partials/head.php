@@ -9,42 +9,10 @@ $description = e($pageMeta['description'] ?? '');
 $keywords    = e(implode(', ', (array) ($pageMeta['keywords'] ?? [])));
 $locale      = e($pageMeta['locale'] ?? 'en-US');
 $lang        = $pageMeta['lang'] ?? 'en';
+$peers       = $pageMeta['peers'] ?? [];
 
-// Canonical URL (auto-generated)
 $siteUrl   = rtrim($pageMeta['site_url'] ?? '', '/');
 $canonical = $siteUrl !== '' ? $siteUrl . $currentPath : '';
-
-// hreflang alternate
-$altLang = null;
-$altHref = null;
-if ($siteUrl !== '') {
-    //TODO: refactor this to be more data-driven and less hardcoded
-    if (str_starts_with($currentPath, '/es')) {
-        $altLang = 'en';
-        $altPath = match(true) {
-            $currentPath === '/es'                               => '/en',
-            $currentPath === '/es/acerca'                        => '/en/about',
-            $currentPath === '/es/blog'                          => '/en/blog',
-            str_starts_with($currentPath, '/es/caracteristicas') => preg_replace('#^/es/caracteristicas#', '/en/features', $currentPath),
-            default                                              => preg_replace('#^/es#', '/en', $currentPath),
-        };
-        $altHref = $siteUrl . $altPath;
-    } elseif (str_starts_with($currentPath, '/en')) {
-        $altLang = 'es';
-        $altPath = match(true) {
-            $currentPath === '/en'                          => '/es',
-            $currentPath === '/en/about'                    => '/es/acerca',
-            $currentPath === '/en/blog'                     => '/es/blog',
-            str_starts_with($currentPath, '/en/features')   => preg_replace('#^/en/features#', '/es/caracteristicas', $currentPath),
-            default                                         => preg_replace('#^/en#', '/es', $currentPath),
-        };
-        $altHref = $siteUrl . $altPath;
-    } else {
-        $altLang = 'es';
-        $altPath = '/es';
-        $altHref = $siteUrl . $altPath;
-    }
-}
 ?>
 <head>
     <meta charset="UTF-8">
@@ -64,9 +32,11 @@ if ($siteUrl !== '') {
     <?php if ($canonical): ?>
     <link rel="canonical" href="<?= e($canonical) ?>">
     <?php endif; ?>
-    <?php if ($altLang && $altHref): ?>
+    <?php if ($canonical && !empty($peers)): ?>
     <link rel="alternate" hreflang="<?= e($lang) ?>" href="<?= e($canonical) ?>">
-    <link rel="alternate" hreflang="<?= e($altLang) ?>" href="<?= e($altHref) ?>">
+    <?php foreach ($peers as $peerLang => $peerPath): ?>
+    <link rel="alternate" hreflang="<?= e($peerLang) ?>" href="<?= e($siteUrl . $peerPath) ?>">
+    <?php endforeach; ?>
     <link rel="alternate" hreflang="x-default" href="<?= e($canonical) ?>">
     <?php endif; ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -79,24 +79,31 @@ if (!function_exists('route')) {
      */
     function route(string $slug, string $locale = ''): string
     {
-        $config      = \Wordless\Config\Config::getInstance();
-        $contentDir  = $config->get('content_dir', dirname(__DIR__) . '/content');
-        $locales     = $config->get('locales', ['en']);
+        $config        = \Wordless\Config\Config::getInstance();
+        $contentDir    = $config->get('content_dir', dirname(__DIR__) . '/content');
+        $locales       = $config->get('locales', ['en']);
         $defaultLocale = $config->get('default_locale', 'en');
 
-        // If an explicit locale is given, build the path directly
+        // Build raw path then normalise: strip trailing /index since index files
+        // are the section root (content/es/index.php lives at /es, not /es/index).
+        $build = static function (string $locale, string $slug, string $defaultLocale): string {
+            if ($locale === $defaultLocale) {
+                $path = '/' . ltrim($slug, '/');
+            } else {
+                $path = '/' . trim($locale . '/' . $slug, '/');
+            }
+            return preg_replace('#/index$#', '', $path) ?: '/';
+        };
+
+        // Explicit locale given — build directly
         if ($locale !== '') {
-            return '/' . trim($locale . '/' . $slug, '/');
+            return $build($locale, $slug, $defaultLocale);
         }
 
         // Search locale subdirectories for a matching file
         foreach ($locales as $loc) {
             if (file_exists($contentDir . '/' . $loc . '/' . $slug . '.php')) {
-                // For the default locale, omit the locale prefix in the URL
-                if ($loc === $defaultLocale) {
-                    return '/' . ltrim($slug, '/');
-                }
-                return '/' . $loc . '/' . ltrim($slug, '/');
+                return $build($loc, $slug, $defaultLocale);
             }
         }
 
@@ -105,7 +112,7 @@ if (!function_exists('route')) {
             return '/' . ltrim($slug, '/');
         }
 
-        // Slug not found — return best-guess path
-        return '/' . ltrim($slug, '/');
+        // Slug not found — best-guess using explicit locale or default
+        return $build($locale ?: $defaultLocale, $slug, $defaultLocale);
     }
 }

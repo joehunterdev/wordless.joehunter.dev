@@ -1,8 +1,9 @@
 <?php $meta = [
     'title'    => 'Inicio',
-    'language' => 'es',
+    'lang'     => 'es',
     'locale'   => 'es-ES',
     'dir'      => 'ltr',
+    'peers'    => ['en' => '/en'],
     'menu'     => ['order' => 1, 'title' => 'Inicio'],
     'keywords' => ['wordless', 'cms', 'php', 'español', 'simple'],
 ]; ?>
@@ -25,7 +26,7 @@
 </ul>
 
 <blockquote>
-    <p>Sin base de datos. Sin Composer. Sin magia.</p>
+    <p>Sin base de datos. Sin Composer. Añade tu magia.</p>
 </blockquote>
 
 <p><a href="<?= route('acerca', 'es') ?>">Más sobre el proyecto →</a></p>

@@ -8,6 +8,7 @@ use Wordless\Cache\Cache;
 use Wordless\Config\Config;
 use Wordless\Content\ContentRepositoryInterface;
 use Wordless\Content\FileContentRepository;
+use Wordless\Content\PeerMap;
 use Wordless\Core\Application;
 use Wordless\Core\Container;
 use Wordless\Events\EventDispatcher;
@@ -40,7 +41,16 @@ $container->singleton(Renderer::class, fn() =>
 );
 
 $container->singleton(ContentRepositoryInterface::class, fn() =>
-    new FileContentRepository($config['content_dir'], $config['meta'] ?? [])
+    new FileContentRepository(
+        $config['content_dir'],
+        $config['meta']           ?? [],
+        $config['locales']        ?? ['en'],
+        $config['default_locale'] ?? 'en'
+    )
+);
+
+$container->singleton(PeerMap::class, fn() =>
+    PeerMap::load($config['base_path'] . '/storage/peers.php')
 );
 
 $container->singleton(EventDispatcher::class, fn() =>

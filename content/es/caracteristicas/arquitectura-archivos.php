@@ -1,7 +1,7 @@
 <?php $meta = [
     'title'       => 'Arquitectura del Sistema de Archivos',
     'description' => 'Mejores prácticas para organizar el contenido en Wordless: estructura de carpetas, convenciones de nombres y patrones escalables.',
-    'menu'        => ['parent' => '/es/caracteristicas', 'order' => 7],
+    'menu'        => ['order' => 7],
     'keywords'    => ['arquitectura', 'archivos', 'estructura', 'organización', 'convenciones'],
 ]; ?>
 

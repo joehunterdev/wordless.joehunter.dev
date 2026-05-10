@@ -1,6 +1,7 @@
 <?php $meta = [
     'title'       => 'Arquitectura y Características',
     'description' => 'Explora la arquitectura de Wordless CMS: enrutamiento, repositorio de contenido, plantillas y más.',
+    'peers'       => ['en' => '/features'],
     'menu'        => ['order' => 3, 'title' => 'Características'],
     'keywords'    => ['arquitectura', 'características', 'diseño', 'patrones', 'componentes'],
 ]; ?>
