@@ -18,6 +18,7 @@ $canonical = $siteUrl !== '' ? $siteUrl . $currentPath : '';
 $altLang = null;
 $altHref = null;
 if ($siteUrl !== '') {
+    //TODO: refactor this to be more data-driven and less hardcoded
     if (str_starts_with($currentPath, '/es')) {
         $altLang = 'en';
         $altPath = match(true) {

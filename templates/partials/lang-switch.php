@@ -3,6 +3,7 @@
 $currentPath = $currentPath ?? '';
 
 // Detect current language from path prefix
+//TODO: refactor this to be more data-driven and less hardcoded
 if (str_starts_with($currentPath, '/es')) {
     $activeLang  = 'es';
     $altLang     = 'en';
@@ -39,5 +40,5 @@ if (str_starts_with($currentPath, '/es')) {
 <div class="lang-switch">
     <span class="lang-switch__active"><?= $activeLabel ?></span>
     <span class="lang-switch__sep">|</span>
-    <a href="<?= htmlspecialchars($altPath) ?>" class="lang-switch__alt"><?= $altLabel ?></a>
+    <a href="<?= e($altPath) ?>" class="lang-switch__alt"><?= $altLabel ?></a>
 </div>

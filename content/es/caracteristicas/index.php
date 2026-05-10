@@ -15,13 +15,13 @@
 <h2>Componentes Principales</h2>
 
 <ul>
-    <li><a href="/es/caracteristicas/nucleo-aplicacion">Núcleo de Aplicación</a> — El ciclo de vida de la solicitud y el arranque del sistema</li>
-    <li><a href="/es/caracteristicas/enrutamiento-archivos">Enrutamiento por Archivos</a> — Resolución de URLs mediante convenciones del sistema de archivos</li>
-    <li><a href="/es/caracteristicas/repositorio-contenido">Repositorio de Contenido</a> — Carga y consulta estructurada de contenido</li>
-    <li><a href="/es/caracteristicas/sistema-plantillas">Sistema de Plantillas</a> — Plantillas PHP puras con herencia</li>
-    <li><a href="/es/caracteristicas/ciclo-solicitudes">Ciclo de Vida de Solicitudes</a> — Cómo fluyen las solicitudes por el sistema</li>
-    <li><a href="/es/caracteristicas/internacionalizacion">Internacionalización</a> — Soporte multilingüe via estructura de directorios</li>
-    <li><a href="/es/caracteristicas/arquitectura-archivos">Arquitectura del Sistema de Archivos</a> — Mejores prácticas para organizar el contenido</li>
+    <li><a href="<?= route('caracteristicas/nucleo-aplicacion', 'es') ?>">Núcleo de Aplicación</a> — El ciclo de vida de la solicitud y el arranque del sistema</li>
+    <li><a href="<?= route('caracteristicas/enrutamiento-archivos', 'es') ?>">Enrutamiento por Archivos</a> — Resolución de URLs mediante convenciones del sistema de archivos</li>
+    <li><a href="<?= route('caracteristicas/repositorio-contenido', 'es') ?>">Repositorio de Contenido</a> — Carga y consulta estructurada de contenido</li>
+    <li><a href="<?= route('caracteristicas/sistema-plantillas', 'es') ?>">Sistema de Plantillas</a> — Plantillas PHP puras con herencia</li>
+    <li><a href="<?= route('caracteristicas/ciclo-solicitudes', 'es') ?>">Ciclo de Vida de Solicitudes</a> — Cómo fluyen las solicitudes por el sistema</li>
+    <li><a href="<?= route('caracteristicas/internacionalizacion', 'es') ?>">Internacionalización</a> — Soporte multilingüe via estructura de directorios</li>
+    <li><a href="<?= route('caracteristicas/arquitectura-archivos', 'es') ?>">Arquitectura del Sistema de Archivos</a> — Mejores prácticas para organizar el contenido</li>
 </ul>
 
 <h2>Filosofía de Diseño</h2>

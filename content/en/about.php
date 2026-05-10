@@ -15,7 +15,7 @@
         'No Composer — zero third-party dependencies',
         'No magic — clean, readable, testable code',
     ] as $point): ?>
-        <li><?= htmlspecialchars($point) ?></li>
+        <li><?= e($point) ?></li>
     <?php endforeach; ?>
 </ul>
 

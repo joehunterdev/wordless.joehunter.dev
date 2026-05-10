@@ -106,4 +106,4 @@
 /blog/hello-world    → content/blog/hello-world.php (specific post)
 </code></pre>
 
-<p><a href="/en/features">← Back to Features</a></p>
+<p><a href="<?= route('features', 'en') ?>">← Back to Features</a></p>

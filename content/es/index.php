@@ -20,7 +20,7 @@
         'Caché basado en archivos',
         'Sistema de plugins y eventos',
     ] as $feature): ?>
-        <li><?= htmlspecialchars($feature) ?></li>
+        <li><?= e($feature) ?></li>
     <?php endforeach; ?>
 </ul>
 
@@ -28,4 +28,4 @@
     <p>Sin base de datos. Sin Composer. Sin magia.</p>
 </blockquote>
 
-<p><a href="/es/acerca">Más sobre el proyecto →</a></p>
+<p><a href="<?= route('acerca', 'es') ?>">Más sobre el proyecto →</a></p>

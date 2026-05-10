@@ -81,4 +81,4 @@ Respuesta enviada al navegador
 
 <hr>
 
-<p><a href="/es/caracteristicas">← Volver a Características</a></p>
+<p><a href="<?= route('caracteristicas', 'es') ?>">← Volver a Características</a></p>

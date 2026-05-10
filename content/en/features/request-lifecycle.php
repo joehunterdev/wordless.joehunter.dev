@@ -156,4 +156,4 @@ $response-&gt;send();
     <li><strong>Performance:</strong> Middleware like caching can optimize before expensive operations</li>
 </ul>
 
-<p><a href="/en/features">← Back to Features</a></p>
+<p><a href="<?= route('features', 'en') ?>">← Back to Features</a></p>

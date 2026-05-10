@@ -99,4 +99,4 @@ $app-&gt;handle($request);
     <li><strong>Control:</strong> No hidden request routing or magic behavior</li>
 </ul>
 
-<p><a href="/en/features">← Back to Features</a></p>
+<p><a href="<?= route('features', 'en') ?>">← Back to Features</a></p>
