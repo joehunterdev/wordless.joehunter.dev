@@ -30,6 +30,10 @@ footer {
     gap: var(--space-4);
 }
 
+.footer__inner p {
+    margin: 0;
+}
+
 .site-credit {
     margin: 0 0 var(--space-2);
 }

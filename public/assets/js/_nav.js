@@ -1,16 +1,27 @@
 /* ==========================================================================
-   _nav.js — Simple navigation functionality
+   _nav.js — Navigation functionality
    ========================================================================== */
 
-// Mobile menu toggle function (called from HTML onclick)
+// Mobile menu toggle (called from HTML onclick)
 function toggleMobileMenu() {
-    const navbar = document.querySelector('.navbar');
-    if (navbar) {
-        navbar.classList.toggle('show');
+    const nav = document.querySelector('.site-nav');
+    if (nav) {
+        nav.classList.toggle('show');
     }
 }
 
-// Simple dropdown hover for desktop
+// Expose to global scope (required because app.js is type="module")
+window.toggleMobileMenu = toggleMobileMenu;
+
+// Tap-to-toggle submenus on mobile
 document.addEventListener('DOMContentLoaded', () => {
-    // No complex JS needed - CSS handles hover states
+    document.querySelectorAll('.dropdown > a').forEach(link => {
+        link.addEventListener('click', e => {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                const dropdown = link.parentElement;
+                dropdown.classList.toggle('open');
+            }
+        });
+    });
 });
