@@ -8,8 +8,6 @@
     'keywords' => ['wordless', 'cms', 'php', 'español', 'simple'],
 ]; ?>
 
-<?= $renderer->partial('nav', ['currentPath' => $currentPath ?? '', 'pageMeta' => $meta]) ?>
-
 <h1>Bienvenido a Wordless</h1>
 
 <p>Un <strong>CMS de archivos planos</strong> en PHP puro, sin dependencias.</p>
@@ -28,7 +26,7 @@
 </ul>
 
 <blockquote>
-    <p>Sin base de datos. Sin Composer. Sin magia.</p>
+    <p>Sin base de datos. Sin Composer. Añade tu magia.</p>
 </blockquote>
 
 <p><a href="<?= route('acerca', 'es') ?>">Más sobre el proyecto →</a></p>

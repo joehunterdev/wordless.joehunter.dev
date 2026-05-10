@@ -146,7 +146,6 @@ class Renderer
                 'title'    => $menuMeta['title'] ?? $meta['title'] ?? 'Untitled',
                 'path'     => $path,
                 'order'    => $menuMeta['order'] ?? 100,
-                'parent'   => $menuMeta['parent'] ?? null,
                 'children' => [],
             ];
         }

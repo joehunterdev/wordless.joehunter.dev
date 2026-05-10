@@ -1,7 +1,7 @@
 <?php $meta = [
     'title'       => 'Template System',
     'description' => 'Pure PHP templates in Wordless: layouts, partials, and best practices for building reusable view components.',
-    'menu'        => ['parent' => '/en/features', 'order' => 4],
+    'menu'        => ['order' => 4],
     'keywords'    => ['templates', 'views', 'layouts', 'partials', 'php'],
 ]; ?>
 

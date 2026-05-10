@@ -15,4 +15,4 @@ Thumbs.db
 
 # PHP
 *.log
-*./docs
+*.docs
