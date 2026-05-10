@@ -10,13 +10,6 @@ class FileContentRepository implements ContentRepositoryInterface
 {
     private readonly string $contentDir;
     private readonly PhpFileParser $phpParser;
-<<<<<<< HEAD
-
-    public function __construct(string $contentDir)
-    {
-        $this->contentDir = rtrim($contentDir, '/\\');
-        $this->phpParser  = new PhpFileParser();
-=======
     private readonly array $defaultMeta;
     private readonly array $locales;
     private readonly string $defaultLocale;
@@ -32,7 +25,6 @@ class FileContentRepository implements ContentRepositoryInterface
         $this->defaultMeta   = $defaultMeta;
         $this->locales       = $locales;
         $this->defaultLocale = $defaultLocale;
->>>>>>> develop
     }
 
     public function find(string $path, ?object $renderer = null, string $currentPath = ''): ?Content
@@ -40,17 +32,6 @@ class FileContentRepository implements ContentRepositoryInterface
         $path = '/' . trim($path, '/');
         $slug = trim($path, '/') ?: 'home';
 
-<<<<<<< HEAD
-        $candidates = [
-            $this->contentDir . '/pages' . $path . '.php',
-            $this->contentDir . '/pages' . $path . '/index.php',
-            $this->contentDir . '/posts' . $path . '.php',
-        ];
-
-        if ($path === '/') {
-            array_unshift($candidates, $this->contentDir . '/pages/index.php');
-        }
-=======
         if ($path === '/') {
             $candidates = [$root . '/index.php'];
         } else {
@@ -58,7 +39,6 @@ class FileContentRepository implements ContentRepositoryInterface
                 $root . $path . '.php',
                 $root . $path . '/index.php',
             ];
->>>>>>> develop
 
             // For paths with no non-default locale prefix, also try the default locale dir.
             // This makes content/en/about.php accessible at /about.
@@ -70,12 +50,8 @@ class FileContentRepository implements ContentRepositoryInterface
 
         foreach ($candidates as $file) {
             if (file_exists($file)) {
-<<<<<<< HEAD
-                return $this->phpParser->parseFile($file, $slug);
-=======
                 $inherited = array_merge($this->defaultMeta, $this->inheritedMeta($file));
                 return $this->phpParser->parseFile($file, $slug, $inherited, $renderer, $currentPath);
->>>>>>> develop
             }
         }
 
@@ -84,9 +60,6 @@ class FileContentRepository implements ContentRepositoryInterface
 
     public function all(string $type = 'pages'): array
     {
-<<<<<<< HEAD
-        $dir   = $this->contentDir . '/' . $type;
-=======
         $contentRoot = realpath($this->contentDir);
         $dir         = dirname(realpath($filePath));
         $ancestors   = [];
@@ -124,7 +97,6 @@ class FileContentRepository implements ContentRepositoryInterface
     public function all(string $path = ''): array
     {
         $dir   = $path !== '' ? $this->contentDir . '/' . trim($path, '/') : $this->contentDir;
->>>>>>> develop
         $items = [];
 
         if (!is_dir($dir)) {
